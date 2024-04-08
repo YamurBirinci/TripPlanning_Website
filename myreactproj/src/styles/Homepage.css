@@ -1,0 +1,60 @@
+.Background_Rectangle {
+  height: 650px; 
+  width: 1250px; 
+  background-position: center;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.158), -3px -3px 5px 0px rgba(255, 255, 255, 0.295);
+  background-color: #F7F7F7;
+  border: 2px solid #C9C9C9; 
+  border-radius: 20px;
+}
+
+.Login{
+  position: relative; 
+  top: -220px;
+  left: 1120px;
+  font-size: 24px;
+  background-color: transparent;
+  border: 0px;
+}
+
+.Login:hover {color: #6d9b6d}
+
+
+.line {
+  position: relative; 
+  height: 3px; 
+  width: 1250px; 
+  background-color: #C9C9C9;
+  margin-top: -190px;
+}
+
+body {
+  font-family: 'Poppins', sans-serif; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+}
+
+.search_button{
+  position: relative;
+  margin-top: -25px;
+  width: 270px;
+  height: 60px;
+  left: 505px;
+  border-radius: 20px;
+  border: 1px solid #9b9b9b;
+  background-color:#1c6632;
+  color: white;
+  font-size: 24px;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.158), -3px -3px 5px 0px rgba(255, 255, 255, 0.295);
+}
+
+.search_button:hover {background-color: #6d9b6d}
+
+.datepicker-container {
+  position: absolute;
+  z-index: 100;
+}
