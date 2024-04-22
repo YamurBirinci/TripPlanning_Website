@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import '../styles/Primary.css'; 
 import '../styles/SelectedHotel.css'; 
 import PhotoGallery from './PhotoGallery'; 
+import SelectedHotelAmenities from './SelectedHotelAmenities'; 
+import SelectedHotelReviews from './SelectedHotelReviews'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHotel } from '@fortawesome/free-solid-svg-icons';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
@@ -39,6 +41,19 @@ function SelectedHotel() {
         setActivePanel(panelName);
     };
 
+    const hotelFeatures = ['parking', 'spa','game','golf','tennis', 'pets', 'breakfast', 'bus', 'wifi', 'wheelchair', 'pool', 'gym', 'briefcase', 'restaurant', 'smoking'];
+
+
+    const reviews = [
+        { date: 'Feb 24, 2024', locationRating: 9, staffRating: 10, cleanlinessRating: 8, comment: "The staff was very friendly and accommodating. I also liked the free airport shuttle service, which was the main reason I booked this hotel. Otherwise, it is in the middle of nowhere!" },
+        { date: 'Feb 22, 2024', locationRating: 4, staffRating: 3, cleanlinessRating: 2, comment: "Convenient but no luxurious features. Staff were courteous and rooms were reasonably clean. Whole hotel needs modernisa" },
+        { date: 'Feb 20, 2024', locationRating: 6, staffRating: 10, cleanlinessRating: 10, comment: "The food was great. The hotel was terrific, thank you for this wonderful experience!" },
+        { date: 'Feb 10, 2024', locationRating: 8, staffRating: 8, cleanlinessRating: 7, comment: "The staff was very friendly and accommodating. I also liked the free airport shuttle service, which was the main reason I booked this hotel. Otherwise, it is in the middle of nowhere!" },
+        { date: 'Feb 05, 2024', locationRating: 2, staffRating: 1, cleanlinessRating: 2, comment: "Convenient but no luxurious features. Staff were courteous and rooms were reasonably clean. Whole hotel needs modernisa" },
+        { date: 'Feb 02, 2024', locationRating: 10, staffRating: 9, cleanlinessRating: 9, comment: "The food was great. The hotel was terrific, thank you for this wonderful experience! The staff was very friendly and accommodating. I also liked the free airport shuttle service, which was the main reason I booked this hotel. Otherwise, it is in the middle of nowhere! The food was great. The hotel was terrific, thank you for this wonderful experience! The staff was very friendly and accommodating. " },
+        
+    ];
+
   return (
 
     <div className="Background_Rectangle" style={{ height: '900px'}}>
@@ -54,11 +69,11 @@ function SelectedHotel() {
             </div>
         </div>
 
-        <div className="Gallery" style={{ marginTop: '40px'}}>
+        <div className="Gallery" style={{ marginTop: '30px'}}>
           <PhotoGallery images={images} />
         </div>
 
-        <div className="container"style={{ marginTop: '45px'}}>
+        <div className="container"style={{ marginTop: '30px'}}>
             <button className={`Hotel_Detail_Button ${activeButton === 'Overview' ? 'Active-Hotel_Detail_Button' : ''}`}
                 onClick={() => clickingButton('Overview', 'Overview-Panel')}>
                 Overview
@@ -99,8 +114,13 @@ function SelectedHotel() {
             <button className='Booking_Button'>Book Now</button>
         </div>}
         
-        {activePanel === 'Amenities-Panel' && <div className='Amenities-Panel'></div>}
-        {activePanel === 'Reviews-Panel' && <div className='Reviews-Panel'></div>}
+        {activePanel === 'Amenities-Panel' && <div className='Amenities-Panel'>
+            <SelectedHotelAmenities features={hotelFeatures} />
+        </div>}
+
+        {activePanel === 'Reviews-Panel' && <div className='Reviews-Panel'>
+            <SelectedHotelReviews reviews={reviews} />
+        </div>}
         {activePanel === 'Location-Panel' && <div className='Location-Panel'></div>}
         {activePanel === 'Explore-Panel' && <div className='Explore-Panel'></div>}
 
