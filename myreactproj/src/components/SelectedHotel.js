@@ -61,22 +61,14 @@ function SelectedHotel() {
         navigate('/MyProfile');
     };
 
+    const ClickToBook = () => {
+        navigate('/Payment');
+    };
+
     const ClickingSearch = () => {
         navigate('/Search');
     };
 
-    const ClickToBook = () => {
-        const isConfirmed = window.confirm("Are you sure?");
-        if (isConfirmed) {
-            ToPayment();
-        } 
-    }
-
-    const ToPayment = () => {
-        navigate('/Payment');
-    };
-
-    
     
   return (
     <div className="Background_Rectangle" style={{ height: '900px'}}>
