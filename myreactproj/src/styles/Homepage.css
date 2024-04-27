@@ -1,0 +1,26 @@
+.Login{
+  position: relative; 
+  top: -220px;
+  left: 1120px;
+  font-size: 24px;
+  background-color: transparent;
+  border: 0px;
+  cursor: pointer;
+}
+
+.Login:hover {color: #6d9b6d}
+
+body {
+  font-family: 'Poppins', sans-serif; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+
+.datepicker-container {
+  position: absolute;
+  z-index: 100;
+}

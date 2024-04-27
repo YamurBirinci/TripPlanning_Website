@@ -1,0 +1,101 @@
+
+.Hotel-Info{
+    position: relative;
+    width: 325px;
+    height: 35px;
+    border: 1px solid #A6A6A6;
+    border-radius:15px;
+    font-size: 20px;
+    color: black;
+    padding: 7px 15px;
+    background: white;
+    top: 20px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin-left: -2px;
+}
+
+.Hotel_Detail_Button{
+    position: relative;
+    border: none; 
+    padding: 10px 20px; 
+    text-align: center; 
+    font-size: 20px;
+    cursor: pointer; 
+    outline: none; 
+    left: -225px;
+}
+
+.Active-Hotel_Detail_Button{
+    border-bottom: 6px solid #004AAD;
+}
+
+.Overview-Panel{
+    height: 430px;
+    justify-content: center; 
+    gap: 20px; 
+}
+
+.Amenities-Panel{
+    display: flex;
+    height: 430px;
+    justify-content: center; 
+    gap: 20px; 
+    display: inline-flex;
+    width: 1300px;
+}
+
+.Booking_Button{
+    font-size: 30px;
+    left: 980px;
+    position: relative;
+    top: -120px;
+    color: white;
+    background-color: #17AD38;
+    border-radius: 15px;
+    width: 200px;
+    height: 50px;
+    border: 1px solid #A6A6A6;
+}
+
+.Booking_Button:hover {
+    background-color: #12c539;
+    cursor: pointer;
+}
+
+.Find_Button{
+    background-color: #004AAD;
+    height: 50px;
+    width: 350px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #A6A6A6;
+    border-radius:15px;
+    font-size: 20px;
+    padding: 7px 15px;
+    top: 20px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin-left: -2px;
+}
+.Find_Button:hover{
+    background-color: #005bd3;
+}
+
+.Location_Image{
+    background-image: url('../images/Location.png');
+    height: 400px;
+    width: 1120px; 
+    background-repeat:no-repeat;
+    background-size: 100%;
+    left: 65px;
+    border: 1px solid grey;
+    top: 35px;
+    border-radius: 20px;
+    cursor: pointer;
+    position: relative;
+}
