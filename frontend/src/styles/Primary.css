@@ -1,0 +1,203 @@
+
+
+.Background_Rectangle {
+  position: relative;
+  height: 650px; 
+  width: 1250px; 
+  background-position: center;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.150), -3px -3px 5px 0px rgba(255, 255, 255, 0.300);
+  background-color: #F7F7F7;
+  border: 2px solid #C9C9C9; 
+  border-radius: 20px;
+  z-index: 5;
+}  
+  
+  .name_logo {
+    position: relative; 
+    background-image: url('../images/name.png');
+    height: 300px;
+    width: 200px; 
+    background-repeat:no-repeat;
+    background-size: 100%;
+    left: 35px;
+    top: 35px;
+    cursor: pointer;
+  }
+
+  .text_group {
+    position: relative;
+    padding: 15px 0px 0;
+    margin-top: 100px;
+    width: 1000px;
+    left: 370px;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center; 
+    gap: 20px; 
+  }
+  
+  .text_box {
+    position: relative;
+    font-family: inherit;
+    width: 500px;
+    height: 50px;
+    border: 1px solid #9b9b9b;
+    border-radius: 15px;
+    font-size: 24px;
+    color: black;
+    padding: 7px 20px;
+    background: transparent;
+    transition: border-color 0.2s, font-size 0.2s, padding 5.2s;
+  }
+
+  .text_box::placeholder {
+    color: transparent;
+  }
+  
+  .text_box:focus {
+    padding-bottom: 6px;  
+    font-weight: 700;
+    border-width: 2px;
+    border-radius: 15px;
+    border-image: linear-gradient(to right, #6d9b6d, #1c6632);
+    border-image-slice: 5;
+  }
+  
+  .text_box:focus ~ .group_label,
+  .text_box:not(:placeholder-shown) ~ .group_label {
+    font-size: 20px;
+    top: 7px;
+    color: #147214;
+    font-weight: 700;
+    background-color: #F7F7F7;
+  }
+  
+  .group_label {
+    position: absolute;
+    top: 33px;
+    left: 15px;
+    display: block;
+    transition: 0.37s;
+    font-size: 24px;
+    color: #9b9b9b; 
+    cursor: text;
+  }
+  
+  .text_box:required,
+  .text_box:invalid {
+    box-shadow: none;
+  }
+
+  .close_button{
+    position: relative;
+    top: -270px;
+    left: 1190px;
+    font-size: 24px;
+    background-color: transparent;
+    border: 0px;
+    font-weight: 700px;
+  }
+
+  .close_button:hover {color: #6d9b6d}
+
+  body {
+    background-color: #E0E0E0;
+    overflow: hidden;
+  }
+
+  .Layer {
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    border-radius: 15px;
+    width: 74px;
+    height: 85px;
+    background-color: #F7F7F7;
+    z-index: 1; 
+  }
+  
+  .Button {
+    position: absolute;
+    top: 20px;
+    left: -113px;
+    width: 120px;
+    height: 50px;
+    background-color: #f7f7f773;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.1), -3px -3px 5px 0px rgba(255, 255, 255, 0.100);
+    border: 1px solid #bdbdbd;
+    transform: rotateX(+65px);
+    transition: transform 1s ease;
+    z-index: 0;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #004AAD;
+  }
+
+  .search_button{
+    position: relative;
+    margin-top: -25px;
+    width: 270px;
+    height: 60px;
+    left: 505px;
+    border-radius: 20px;
+    border: 1px solid #9b9b9b;
+    background-color:#1c6632;
+    color: white;
+    font-size: 24px;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.158), -3px -3px 5px 0px rgba(255, 255, 255, 0.295);
+    cursor: pointer;
+  }
+  
+  .search_button:hover {background-color: #6d9b6d}
+
+  .line {
+    position: relative; 
+    height: 2px; 
+    width: 1250px; 
+    background-color: #C9C9C9;
+    margin-top: -190px;
+  }
+
+  .Payment-Panel-Container{
+    position: relative;
+    top: 10px;
+    width: 1250px;;
+    height: 600px;
+  }
+
+  .Payment_button{
+    position: relative;
+    top: -220px;
+    width: 270px;
+    height: 60px;
+    left: 490px;
+    border-radius: 20px;
+    border: 1px solid #9b9b9b;
+    background-color:#1c6632;
+    color: white;
+    font-size: 24px;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.158), -3px -3px 5px 0px rgba(255, 255, 255, 0.295);
+    cursor: pointer;
+  }
+
+  .Payment_button:hover {background-color: #6d9b6d}
+
+
+  .filter{
+    position: relative;
+    width: 210px;
+    height: 740px;
+    top: -30px;
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .filter::-webkit-scrollbar {
+    width: 0px;
+  }
+  
