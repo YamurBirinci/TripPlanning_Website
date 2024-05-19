@@ -1,0 +1,89 @@
+.owner_button{
+    position: relative;
+    top: -52px;
+    left: 715px;
+    margin-right: 20px;
+    height: 50px;
+    width: 240px;
+    border-radius: 15px;
+    border: 1px solid #9b9b9b;
+    background-color:#799978;
+    color: white;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.158), -3px -3px 5px 0px rgba(255, 255, 255, 0.295);
+    cursor: pointer;
+    font-size: 22px;
+  }
+  
+  .owner_button:hover {background-color: #6d9b6d}
+
+  .Scrolling-Area{
+    position: relative;
+    left: 30px;
+    width: 1000px;
+    top: -30px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .Sutton{
+    position: relative;
+    margin-top: -25px;
+    width: 270px;
+    height: 60px;
+    left: 505px;
+    border-radius: 20px;
+    border: 1px solid #9b9b9b;
+    background-color:#1c6632;
+    color: white;
+    font-size: 24px;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.158), -3px -3px 5px 0px rgba(255, 255, 255, 0.295);
+    cursor: pointer;
+  }
+
+  .Submit-Search-Button{
+    position: relative;
+    margin-top: 30px;
+    font-size: 20px;
+    padding: 10px;
+    width: 150px;
+    border-radius: 20px;
+    left: 30px;
+    background-color:#afaeae;
+    border: 1px solid #9b9b9b;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.158), -3px -3px 5px 0px rgba(255, 255, 255, 0.295);
+    cursor: pointer;
+  }
+
+  .Select-Container{
+    flex-wrap: wrap;
+    gap: '10px';
+    margin-top: -345px; 
+    background-color: 'grey';
+    width: 500px;
+    left: 65px;
+    position: relative;
+    font-size: 22px;
+    padding: 20px;
+  }
+
+  .Select-DropBox{
+    width: 530px;
+    top: 210px;
+    left: 375px;
+    font-size: 22px;
+    padding: 10px;
+    border-radius: 15px;
+    height: 60px;
+    border: 1px solid #9b9b9b;
+  }
+
+  .Selected-Items-Container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    max-height: 205px;
+    width: 520px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
