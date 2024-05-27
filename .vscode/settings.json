@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": ["src/main/java"],
+    "java.project.outputPath": "build/classes",
+    "java.project.referencedLibraries": [
+      "C:/javafx-sdk-17.0.2/lib/**/*.jar"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive"
+  }
+  
