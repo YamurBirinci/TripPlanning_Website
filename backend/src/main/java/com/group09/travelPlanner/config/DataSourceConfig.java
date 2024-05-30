@@ -11,7 +11,7 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:sqlserver://localhost:1433;databaseName=xyz")
+                .url("jdbc:sqlserver://localhost:1433;databaseName=tripPlannerDB")
                 .username("sa")
                 .password("reallyStrongPwd123")
                 .driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
