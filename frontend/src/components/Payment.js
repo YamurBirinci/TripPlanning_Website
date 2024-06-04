@@ -23,7 +23,7 @@ function Payment() {
 
     return (
         <div className='background'>
-            <div className="Background_SignUp_Rectangle" style={{transform: 'scale(0.95)'}}>
+            <div className="Background_SignUp_Rectangle" style={{transform: 'scale(0.90)'}}>
                 <button className="name_logo" style={{ height: '100px', border: '0px', backgroundColor: 'transparent'}} onClick={ClickingHomepage} ></button>
                 <div className="SignUp-line"></div>
                 

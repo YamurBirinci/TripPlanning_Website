@@ -1,4 +1,3 @@
-com/group09/travelPlanner/dao/User.class
-com/group09/travelPlanner/services/UserService.class
-com/group09/travelPlanner/Application.class
-com/group09/travelPlanner/dao/UserRepository.class
+com\group09\travelPlanner\Application.class
+com\group09\travelPlanner\dao\UserRepository.class
+com\group09\travelPlanner\services\UserService.class

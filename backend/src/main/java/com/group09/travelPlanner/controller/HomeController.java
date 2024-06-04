@@ -1,7 +1,8 @@
 package com.group09.travelPlanner.controller;
 
-import com.group09.travelPlanner.dao.User;
 import com.group09.travelPlanner.dao.UserRepository;
+import com.group09.travelPlanner.entities.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

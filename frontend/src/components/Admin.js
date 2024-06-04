@@ -71,7 +71,7 @@ function Admin() {
 
     return (
         <div className='background'>
-            <div className="Background_Rectangle" style={{ height: '800px', transform: 'scale(0.95)'}}>
+            <div className="Background_Rectangle" style={{ height: '800px', transform: 'scale(0.90)'}}>
                 <button className="name_logo" style={{ height: '100px', border: '0px', backgroundColor: 'transparent', left: '70px'}} onClick={ClickingHomepage} ></button>
                 <div className="Layer" style={{top: '25px',width: '77px'}}></div>
                     <button className="Button" style={{ transform: 'translateX(+65px)', top: '45px', color: 'black'}} onClick={ClickingHomepage}

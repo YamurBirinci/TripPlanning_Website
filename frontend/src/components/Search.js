@@ -83,7 +83,7 @@ function SelectedHotel() {
     
   return (
     <div className='background'>
-        <div className="Background_Rectangle" style={{ height: '900px', transform: 'scale(0.95)'}}>
+        <div className="Background_Rectangle" style={{ height: '900px', transform: 'scale(0.90)'}}>
             <div className="Layer" style={{width: '77px'}}></div>
             <button className="Button" style={{ transform: 'translateX(+65px)' }} onClick={ClickingMyProfile}
                 onMouseEnter={event => event.currentTarget.style.transform = 'translateX(0)'}

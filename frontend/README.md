@@ -9,3 +9,7 @@ npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fo
 npm install react-router-dom@6
 
 npm install chart.js react-chartjs-2
+
+npm install react-toastify
+
+npm install axios

@@ -11,10 +11,10 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:sqlserver://localhost:1433;databaseName=tripPlannerDB")
-                .username("sa")
-                .password("reallyStrongPwd123")
-                .driverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+                .url("jdbc:mysql://localhost:3306/tripPlannerDB?useSSL=false&serverTimezone=UTC")
+                .username("root")
+                .password("MySQL61.")
+                .driverClassName("com.mysql.cj.jdbc.Driver")
                 .build();
     }
 }

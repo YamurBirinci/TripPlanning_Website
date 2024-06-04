@@ -27,7 +27,7 @@ function Homepage() {
 
     return (
         <div className='background-homepage'>
-            <div className="Background_Rectangle" style={{transform: 'scale(0.9)'}}>
+            <div className="Background_Rectangle" style={{transform: 'scale(0.87)'}}>
                 
 
                 <div className="name_logo"></div>
