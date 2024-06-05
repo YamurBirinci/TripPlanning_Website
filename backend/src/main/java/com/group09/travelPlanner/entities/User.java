@@ -14,7 +14,6 @@ public class User {
     private String last_name;
     private String mail; 
     private String password;
-    private Long addressID;
     private String role;
 
     // Getters and Setters
@@ -57,15 +56,6 @@ public class User {
 
     public void setPassword(String password) { // Changed from Long to String
         this.password = password;
-    }
-
-
-    public Long getAddressID() {
-        return addressID;
-    }
-
-    public void setAddressID(Long addressID) {
-        this.addressID = addressID;
     }
 
     public String getRole() {
