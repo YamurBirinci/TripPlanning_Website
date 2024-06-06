@@ -1,6 +1,7 @@
 package com.group09.travelPlanner.controller;
 
 import com.group09.travelPlanner.responses.HotelResponse;
+import com.group09.travelPlanner.responses.SearchResponse;
 import com.group09.travelPlanner.entities.Hotel;
 import com.group09.travelPlanner.entities.Hotelimages;
 import com.group09.travelPlanner.services.HotelImageService;
@@ -21,17 +22,17 @@ public class HotelController {
     private HotelImageService hotelImageService;
 
     @GetMapping
-    public List<HotelResponse> getAllHotels() {
+    public List<SearchResponse> getAllHotels() {
         return hotelService.getAllHotels();
     }
 
     @GetMapping("/{hotelID}")
-    public HotelResponse getHotelById(@PathVariable int hotelID) {
+    public SearchResponse getHotelById(@PathVariable int hotelID) {
         return hotelService.getHotelById(hotelID);
     }
 
     @PostMapping
-    public HotelResponse createHotel(@RequestBody Hotel hotel) {
+    public SearchResponse createHotel(@RequestBody Hotel hotel) {
         return hotelService.saveHotel(hotel);
     }
 
@@ -46,13 +47,22 @@ public class HotelController {
     }
 
     @GetMapping("/search")
-    public List<HotelResponse> searchHotels(
+    public List<SearchResponse> searchHotels(
         @RequestParam String destination, 
         @RequestParam int adults, 
         @RequestParam int kids, 
         @RequestParam("start_date") String startDate, 
         @RequestParam("end_date") String endDate
-    ) {
+    ) 
+    {
         return hotelService.searchHotels(destination, adults, kids, startDate, endDate);
+    }
+
+    @GetMapping("/{hotelID}/{roomTypeID}")
+    public HotelResponse getHotelByIdAndRoomType(
+        @PathVariable int hotelID,
+        @PathVariable int roomTypeID
+    ) {
+        return hotelService.getHotelByIdAndRoomType(hotelID, roomTypeID);
     }
 }
