@@ -16,11 +16,11 @@ function Search() {
     const [filteredHotels, setFilteredHotels] = useState([]);
     
     // URL parametrelerini doğru aldığımızdan emin olalım
-    const destination = searchParams.get('destination');
-    const adults = parseInt(searchParams.get('adults'), 10);
-    const kids = parseInt(searchParams.get('kids'), 10);
-    const start_date = searchParams.get('startDate');
-    const end_date = searchParams.get('endDate');
+    const destination = searchParams.get('destination') || '';
+    const adults = parseInt(searchParams.get('adults'), 10) || 1;
+    const kids = parseInt(searchParams.get('kids'), 10) || 0;
+    const start_date = searchParams.get('startDate') || '';
+    const end_date = searchParams.get('endDate') || '';
 
     const [newDestination, setNewDestination] = useState(destination);
     const [newStartDate, setNewStartDate] = useState(start_date);
@@ -32,6 +32,7 @@ function Search() {
                 const response = await fetch(`http://localhost:8081/api/hotels/search?destination=${destination}&adults=${adults}&kids=${kids}&start_date=${start_date}&end_date=${end_date}`);
                 const data = await response.json();
                 setHotels(data);
+                setFilteredHotels(data);  // Başlangıçta tüm otelleri göster
                 console.log('Fetched Hotels:', data);
             } catch (error) {
                 console.error('Error fetching hotels:', error);
@@ -66,13 +67,9 @@ function Search() {
         navigate(`/Search?${queryParams}`);
     };
 
-    const StarIcon = () => <FontAwesomeIcon icon={faStar} style={{ color: "orange", marginRight: '3px'}}/>;
-    const stars5 = Array(5).fill(<StarIcon />);
-    const stars4 = Array(4).fill(<StarIcon />);
-    const stars3 = Array(3).fill(<StarIcon />);
-    const stars2 = Array(2).fill(<StarIcon />);
-    const stars1 = Array(1).fill(<StarIcon />);
-    
+    const StarIcon = () => <FontAwesomeIcon icon={faStar} style={{ color: "orange", marginRight: '3px'}} />;
+    const starsArray = (numStars) => Array(numStars).fill(<StarIcon />);
+
     const FilterRate = (rate) => {
         const newSelection = [...selectedRates];
 
@@ -169,7 +166,7 @@ function Search() {
                                             checked={selectedRates.includes(rate)}
                                             onChange={() => FilterRate(rate)}
                                         />
-                                        {Array(rate).fill(<StarIcon />)}
+                                        {starsArray(rate)}
                                     </label>
                                 </div>
                             ))}
@@ -178,39 +175,37 @@ function Search() {
                         <div>
                             <h3 style={{ color: '#636363', borderTop: '1px solid #C9C9C9', paddingTop: '10px', marginTop: '40px' }}>Price</h3>
                             <div className="container" style={{ transform: 'scale(0.8)', height: '70px' }}>
-                            <div className="text_group field" style={{ width: '300px', left: '-0px', top: '-130px' }}>
-                                <input
-                                    type="text"
-                                    className="text_box"
-                                    style={{ width: '50px' }}
-                                    placeholder="Min"
-                                    name="Min"
-                                    id="Min"
-                                    value={minPrice}
-                                    onChange={(e) => setMinPrice(e.target.value)}
-                                    required
-                                />
-                                <label htmlFor="Min" className="group_label"> Min</label>
-                            </div>
-                            <p style={{ transform: 'scale(2)', left: '-05px', top: '-05px', position: 'relative' }}>-</p>
+                                <div className="text_group field" style={{ width: '300px', left: '-0px', top: '-130px' }}>
+                                    <input
+                                        type="text"
+                                        className="text_box"
+                                        style={{ width: '50px' }}
+                                        placeholder="Min"
+                                        name="Min"
+                                        id="Min"
+                                        value={minPrice}
+                                        onChange={(e) => setMinPrice(e.target.value)}
+                                        required
+                                    />
+                                    <label htmlFor="Min" className="group_label"> Min</label>
+                                </div>
+                                <p style={{ transform: 'scale(2)', left: '-05px', top: '-05px', position: 'relative' }}>-</p>
 
-                            <div className="text_group field" style={{ width: '300px', left: '0px', top: '-130px' }}>
-                                <input
-                                    type="text"
-                                    className="text_box"
-                                    style={{ width: '50px' }}
-                                    placeholder="Max"
-                                    name="Max"
-                                    id="Max"
-                                    value={maxPrice}
-                                    onChange={(e) => setMaxPrice(e.target.value)}
-                                    required
-                                />
-                                <label htmlFor="Max" className="group_label"> Max</label>
+                                <div className="text_group field" style={{ width: '300px', left: '0px', top: '-130px' }}>
+                                    <input
+                                        type="text"
+                                        className="text_box"
+                                        style={{ width: '50px' }}
+                                        placeholder="Max"
+                                        name="Max"
+                                        id="Max"
+                                        value={maxPrice}
+                                        onChange={(e) => setMaxPrice(e.target.value)}
+                                        required
+                                    />
+                                    <label htmlFor="Max" className="group_label"> Max</label>
+                                </div>
                             </div>
-
-                            </div>
-
                         </div>
 
                         <button className='Submit-Search-Button' style={{ left: '15px' }} onClick={handleFilter}>
@@ -228,7 +223,7 @@ function Search() {
                                     <div style={{ fontSize: '24px', marginTop: '10px' }}>{hotel.roomSize}</div>
                                 </div>
                                 <div style={{ position: 'fixed', fontSize: '30px', marginTop: '40px', left: '925px', zIndex: '100', color: '#1c6632' }}>${hotel.dailyPrice}</div>
-                                <button className="explore_button" onClick={() => ClickingExplore(hotel.hotelID, hotel.roomTypeID)}>Explore!</button>
+                                <button className="explore_button" onClick={() => ClickingExplore(hotel.hotelID, hotel.room_typeID)}>Explore!</button>
                             </div>
                         </div>
                     ))}

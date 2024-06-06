@@ -6,26 +6,14 @@ import SelectedHotelAmenities from './SelectedHotelAmenities';
 import SelectedHotelReviews from './SelectedHotelReviews'; 
 import SelectedHotelExplore from './SelectedHotelExplore'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHouse, faHotel, faMagnifyingGlassLocation, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHouse, faHotel, faLocationDot, faMagnifyingGlassLocation, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation, useParams  } from 'react-router-dom';
 
 
 //Otel bilgileri #############################################################################
 const Hotel_Name = "Hotel Angeles Center";
-const Hotel_Date = "03/14/24 - 03/15/24";
-const Hotel_Info = "4-Star Hotel";
-const Hotel_Location = "Calle Juan De Mata Carriazo 7, Seville, Spain";
-const Hotel_Price = "146";
 
-const reviews = [
-    { date: 'Feb 24, 2024', locationRating: 9, staffRating: 10, cleanlinessRating: 8, comment: "The staff was very friendly and accommodating. I also liked the free airport shuttle service, which was the main reason I booked this hotel. Otherwise, it is in the middle of nowhere!" },
-    { date: 'Feb 22, 2024', locationRating: 4, staffRating: 3, cleanlinessRating: 2, comment: "Convenient but no luxurious features. Staff were courteous and rooms were reasonably clean. Whole hotel needs modernisa" },
-    { date: 'Feb 20, 2024', locationRating: 6, staffRating: 10, cleanlinessRating: 10, comment: "The food was great. The hotel was terrific, thank you for this wonderful experience!" },
-    { date: 'Feb 10, 2024', locationRating: 8, staffRating: 8, cleanlinessRating: 7, comment: "The staff was very friendly and accommodating. I also liked the free airport shuttle service, which was the main reason I booked this hotel. Otherwise, it is in the middle of nowhere!" },
-    { date: 'Feb 05, 2024', locationRating: 2, staffRating: 1, cleanlinessRating: 2, comment: "Convenient but no luxurious features. Staff were courteous and rooms were reasonably clean. Whole hotel needs modernisa" },
-    { date: 'Feb 02, 2024', locationRating: 10, staffRating: 9, cleanlinessRating: 9, comment: "The food was great. The hotel was terrific, thank you for this wonderful experience! The staff was very friendly and accommodating. I also liked the free airport shuttle service, which was the main reason I booked this hotel. Otherwise, it is in the middle of nowhere! The food was great. The hotel was terrific, thank you for this wonderful experience! The staff was very friendly and accommodating. " },
-    
-];
+
 //#############################################################################
 
 
@@ -36,6 +24,10 @@ function SelectedHotel() {
     const { hotelID, roomTypeID } = useParams(); 
     const [selectedHotels, setSelectedHotels] = useState([]);
     const [roomPrice, setRoomPrice] = useState(null);
+    const [newDestination, setNewDestination] = useState('');
+    const [newStartDate, setNewStartDate] = useState('');
+    const [newEndDate, setNewEndDate] = useState('');
+
 
 
     useEffect(() => {
@@ -64,7 +56,16 @@ function SelectedHotel() {
     console.log(reviews);
     const hotelFeatures = selectedHotels.amenities ? selectedHotels.amenities.map(amenity => amenity.amenity_name) : [];
 
-    
+    const handleSearch = () => {
+        const queryParams = new URLSearchParams({
+            destination: newDestination,
+            adults: 1,
+            kids: 0,
+            startDate: newStartDate,
+            endDate: newEndDate,
+        }).toString();
+        navigate(`/Search?${queryParams}`);
+    };
 
     const clickingButton = (buttonId, panelName) => {
         setActiveButton(buttonId);
@@ -93,7 +94,7 @@ function SelectedHotel() {
   return (
     <div className='background'>
         <div className="Background_Rectangle" style={{ height: '900px', transform: 'scale(0.90)'}}>
-            <div className="Layer"></div>
+            <div className="Layer" style={{width: '80px', height: '100px'}}></div>
             <button className="Button" style={{ transform: 'translateX(+65px)' }} onClick={ClickingMyProfile}
                 onMouseEnter={event => event.currentTarget.style.transform = 'translateX(0)'}
                 onMouseLeave={event => event.currentTarget.style.transform = 'translateX(+65px)'}>
@@ -106,7 +107,45 @@ function SelectedHotel() {
                 <FontAwesomeIcon icon={faHouse} style={{ fontSize: '18px', color: "#004AAD", marginRight: '15px'}} /> Main
             </button>
 
-            <div className="Gallery" style={{ marginTop: '50px'}}>
+            <div className="container" style={{ marginTop: '10px', marginBottom: '30px', transform: 'scale(0.85)' }}>
+                    <div className="text_group field" style={{ width: '280px', left: '-110px', marginRight: '10px', top:'-105px' }}>
+                        <input
+                            style={{ width: '340px', left: '0px', marginRight: '10px' }}
+                            type="text"
+                            className="text_box"
+                            placeholder="New Destination"
+                            value={newDestination}
+                            onChange={(e) => setNewDestination(e.target.value)}
+                        />
+                        <label htmlFor="newDestination" className="group_label"><FontAwesomeIcon icon={faLocationDot}></FontAwesomeIcon> Destination</label>
+                    </div>
+                    <div className="text_group field" style={{ width: '160px', left: '0px' , top:'-105px'}}>
+                        <input
+                            style={{ width: '170px', marginRight: '10px' }}
+                            type="date"
+                            className="text_box"
+                            value={newStartDate}
+                            onChange={(e) => setNewStartDate(e.target.value)}
+                        />
+                        <label htmlFor="newStartDate" className="group_label"><FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon> Start Date</label>
+                    </div>
+                    <div className="text_group field" style={{ width: '160px', left: '38px' , top:'-105px'}}>
+                        <input
+                            style={{ width: '170px', marginRight: '10px' }}
+                            type="date"
+                            className="text_box"
+                            value={newEndDate}
+                            onChange={(e) => setNewEndDate(e.target.value)}
+                        />
+                        <label htmlFor="newEndDate" className="group_label"><FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon> End Date</label>
+                    </div>
+                    <button className="Find_Button" style={{ width: '380px', left: '105px', height: '68px', top:'10px' }} onClick={handleSearch}>
+                        <FontAwesomeIcon icon={faMagnifyingGlassLocation} style={{ color: "white", padding: '10px' }} />
+                        Find New Journey
+                    </button>
+                </div>
+
+            <div className="Gallery" style={{ marginTop: '-120px'}}>
             <PhotoGallery images={images} />
             </div> 
 
