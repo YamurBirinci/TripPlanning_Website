@@ -49,11 +49,6 @@ overflow-x: hidden;
     border: 1px solid #9b9b9b;
     background-color:#1c6632;
     color: white;
-<<<<<<< HEAD
-    font-size: 24px;
-    cursor: pointer;
-}
-=======
     margin-right: 25px;
 }
 
@@ -73,4 +68,3 @@ overflow-x: hidden;
     font-size: 22px;
     z-index: 100;
   }
->>>>>>> e0959e3f (search page)
