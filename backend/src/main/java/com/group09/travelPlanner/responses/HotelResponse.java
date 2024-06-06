@@ -1,40 +1,41 @@
 package com.group09.travelPlanner.responses;
 
-import com.group09.travelPlanner.entities.Amenity;
-import com.group09.travelPlanner.entities.Hotelimages;
-import com.group09.travelPlanner.entities.Review;
-import com.group09.travelPlanner.entities.Room;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.group09.travelPlanner.entities.Hotel;
 
 public class HotelResponse {
-    private Integer hotelID;
-    private String hotelName;
+    private int hotelID;
+    private String hotel_name;
     private String address;
-    private Integer star;
+    private int star;
     private String status;
-    private List<Room> rooms = new ArrayList<>();
-    private List<Review> reviews = new ArrayList<>();
-    private List<Hotelimages> images = new ArrayList<>();
-    private List<Amenity> amenities = new ArrayList<>();
+    private String imageURL;
+    private String roomSize;
+    private Double dailyPrice;
+
+    public HotelResponse(Hotel hotel) {
+        this.hotelID = hotel.getHotelID();
+        this.hotel_name = hotel.getHotel_name();
+        this.address = hotel.getAddress();
+        this.star = hotel.getStar();
+        this.status = hotel.getStatus();
+    }
 
     // Getter and Setter methods...
 
-    public Integer getHotelID() {
+    public int getHotelID() {
         return hotelID;
     }
 
-    public void setHotelID(Integer hotelID) {
+    public void setHotelID(int hotelID) {
         this.hotelID = hotelID;
     }
 
-    public String getHotelName() {
-        return hotelName;
+    public String getHotel_name() {
+        return hotel_name;
     }
 
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
+    public void setHotel_name(String hotel_name) {
+        this.hotel_name = hotel_name;
     }
 
     public String getAddress() {
@@ -45,11 +46,11 @@ public class HotelResponse {
         this.address = address;
     }
 
-    public Integer getStar() {
+    public int getStar() {
         return star;
     }
 
-    public void setStar(Integer star) {
+    public void setStar(int star) {
         this.star = star;
     }
 
@@ -61,35 +62,27 @@ public class HotelResponse {
         this.status = status;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setRooms(List<Room> rooms) {
-        this.rooms = rooms;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
+    public String getRoomSize() {
+        return roomSize;
     }
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
+    public void setRoomSize(String roomSize) {
+        this.roomSize = roomSize;
     }
 
-    public List<Hotelimages> getImages() {
-        return images;
+    public Double getDailyPrice() {
+        return dailyPrice;
     }
 
-    public void setImages(List<Hotelimages> images) {
-        this.images = images;
-    }
-
-    public List<Amenity> getAmenities() {
-        return amenities;
-    }
-
-    public void setAmenities(List<Amenity> amenities) {
-        this.amenities = amenities;
+    public void setDailyPrice(Double dailyPrice) {
+        this.dailyPrice = dailyPrice;
     }
 }
