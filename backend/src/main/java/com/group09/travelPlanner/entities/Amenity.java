@@ -1,7 +1,7 @@
 package com.group09.travelPlanner.entities;
 
 import javax.persistence.*;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Amenity")
@@ -12,51 +12,34 @@ public class Amenity {
 
     private String amenity_name;
 
-    @ManyToMany(mappedBy = "amenities")
-    private List<Hotel> hotels;
+    @ManyToOne
+    @JoinColumn(name = "hotelID", referencedColumnName = "hotelID")
+    @JsonIgnore
+    private Hotel hotel;
 
     // Getters and Setters
 
-    /**
-     * @return Integer return the amenityID
-     */
     public Integer getAmenityID() {
         return amenityID;
     }
 
-    /**
-     * @param amenityID the amenityID to set
-     */
     public void setAmenityID(Integer amenityID) {
         this.amenityID = amenityID;
     }
 
-    /**
-     * @return String return the amenity_name
-     */
-    public String getamenity_name() {
+    public String getAmenity_name() {
         return amenity_name;
     }
 
-    /**
-     * @param amenity_name the amenity_name to set
-     */
-    public void setamenity_name(String amenity_name) {
+    public void setAmenity_name(String amenity_name) {
         this.amenity_name = amenity_name;
     }
 
-    /**
-     * @return List<Hotel> return the hotels
-     */
-    public List<Hotel> getHotels() {
-        return hotels;
+    public Hotel getHotel() {
+        return hotel;
     }
 
-    /**
-     * @param hotels the hotels to set
-     */
-    public void setHotels(List<Hotel> hotels) {
-        this.hotels = hotels;
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
-
 }

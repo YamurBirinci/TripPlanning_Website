@@ -7,9 +7,9 @@ import React, { useState } from 'react';
 function SelectedHotelReviews({ reviews }) {
 
     let ratingNumber = reviews.length;
-    const locationSum = reviews.reduce((sum, row) => sum + row.locationRating, 0);
-    const staffSum = reviews.reduce((sum, row) => sum + row.staffRating, 0);
-    const cleanlinessSum = reviews.reduce((sum, row) => sum + row.cleanlinessRating, 0);
+    const locationSum = reviews.reduce((sum, row) => sum + row.location_rating, 0);
+    const staffSum = reviews.reduce((sum, row) => sum + row.staff_rating, 0);
+    const cleanlinessSum = reviews.reduce((sum, row) => sum + row.cleanliness_rating, 0);
 
     const [visibleCommentPanel, setVisibleCommentPanel] = useState(false);
     const [comment, setComment] = useState('');
@@ -75,9 +75,9 @@ function SelectedHotelReviews({ reviews }) {
 
                 {reviews.map(review => 
                     (<div key={review}> <div className="Comments-Container">
-                        <div className='Comment-Rating'>{((review.locationRating + review.staffRating + review.cleanlinessRating)/3).toFixed(1)}</div>
+                        <div className='Comment-Rating' style={{fontSize:'26px'}}>{((review.location_rating + review.staff_rating + review.cleanliness_rating)/3).toFixed(1)}</div>
                         <div className='Comment'>
-                    {review.comment}</div></div> <div className="Date">{review.date}</div> 
+                    {review.review_text}</div></div> <div className="Date">{review.date}</div> 
                 </div>))} 
         </div>
     );

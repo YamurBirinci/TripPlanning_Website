@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/Primary.css'; 
 import '../styles/SelectedHotel.css'; 
 import PhotoGallery from './PhotoGallery'; 
@@ -7,23 +7,8 @@ import SelectedHotelReviews from './SelectedHotelReviews';
 import SelectedHotelExplore from './SelectedHotelExplore'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faHouse, faHotel, faMagnifyingGlassLocation, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, useParams  } from 'react-router-dom';
 
-import Angeles1 from '../images/Angeles1.PNG';
-import Angeles2 from '../images/Angeles2.PNG';
-import Angeles3 from '../images/Angeles3.PNG';
-import Angeles4 from '../images/Angeles4.PNG';
-import Angeles5 from '../images/Angeles5.PNG';
-import Angeles6 from '../images/Angeles6.PNG';
-
-const images = [
-    Angeles1,
-    Angeles2,
-    Angeles3,
-    Angeles4,
-    Angeles5,
-    Angeles6,
-];
 
 //Otel bilgileri #############################################################################
 const Hotel_Name = "Hotel Angeles Center";
@@ -31,7 +16,6 @@ const Hotel_Date = "03/14/24 - 03/15/24";
 const Hotel_Info = "4-Star Hotel";
 const Hotel_Location = "Calle Juan De Mata Carriazo 7, Seville, Spain";
 const Hotel_Price = "146";
-const hotelFeatures = ['bus', 'wifi', 'wheelchair', 'pool', 'gym', 'briefcase', 'restaurant', 'smoking'];
 
 const reviews = [
     { date: 'Feb 24, 2024', locationRating: 9, staffRating: 10, cleanlinessRating: 8, comment: "The staff was very friendly and accommodating. I also liked the free airport shuttle service, which was the main reason I booked this hotel. Otherwise, it is in the middle of nowhere!" },
@@ -49,6 +33,38 @@ function SelectedHotel() {
 
     const [activeButton, setActiveButton] = useState('Overview');
     const [activePanel, setActivePanel] = useState('Overview-Panel');
+    const { hotelID, roomTypeID } = useParams(); 
+    const [selectedHotels, setSelectedHotels] = useState([]);
+    const [roomPrice, setRoomPrice] = useState(null);
+
+
+    useEffect(() => {
+        const fetchHotelDetails = async () => {
+            try {
+                const response = await fetch(`http://localhost:8081/api/hotels/${hotelID}/${roomTypeID}`);
+                const data = await response.json();
+                setSelectedHotels(data);
+                
+                const room = data.rooms.find(r => r.roomTypeID === parseInt(roomTypeID));
+                if (room) {
+                    setRoomPrice(room.dailyPrice);
+                }
+                                
+            } catch (error) {
+                console.error('Error fetching hotels:', error);
+            }
+        };
+
+        fetchHotelDetails();
+    }, [hotelID, roomTypeID]);
+
+    const images = selectedHotels.images ? selectedHotels.images.map(image => `${process.env.PUBLIC_URL}/images/${image.imageURL}`) : [];
+    console.log(images);
+    const reviews = selectedHotels.reviews ? selectedHotels.reviews : [];
+    console.log(reviews);
+    const hotelFeatures = selectedHotels.amenities ? selectedHotels.amenities.map(amenity => amenity.amenity_name) : [];
+
+    
 
     const clickingButton = (buttonId, panelName) => {
         setActiveButton(buttonId);
@@ -89,23 +105,8 @@ function SelectedHotel() {
                 onMouseLeave={event => event.currentTarget.style.transform = 'translateX(+65px)'}>
                 <FontAwesomeIcon icon={faHouse} style={{ fontSize: '18px', color: "#004AAD", marginRight: '15px'}} /> Main
             </button>
-        
-            <div className="container">
-                <div className="Hotel-Info">
-                    <FontAwesomeIcon icon={faHotel} style={{ color: "#004AAD", padding: '10px'}} />
-                    {Hotel_Name}
-                </div>
-                <div className="Hotel-Info">
-                    <FontAwesomeIcon icon={faCalendarDays} style={{color: "#004AAD", padding: '10px'}} />
-                    {Hotel_Date}
-                </div>
-                <button className="Find_Button" onClick={ClickingSearch}>
-                    <FontAwesomeIcon icon={faMagnifyingGlassLocation} style={{ color: "white", padding: '10px'}} />
-                    Find New Journey
-                </button>
-            </div>
 
-            <div className="Gallery" style={{ marginTop: '30px'}}>
+            <div className="Gallery" style={{ marginTop: '50px'}}>
             <PhotoGallery images={images} />
             </div> 
 
@@ -143,10 +144,10 @@ function SelectedHotel() {
 
 
             {activePanel === 'Overview-Panel' && <div className='Overview-Panel'>
-                <div style={{ fontSize: '30px', fontWeight: 'Bold', left: '85px', position: 'relative', marginTop: '50px', display: 'block', maxWidth: '1000px'}}>{Hotel_Name}</div>
-                <div style={{ fontSize: '25px',left: '85px', position: 'relative', marginTop: '10px', maxWidth: '1000px'}}>{Hotel_Info}</div>
-                <div style={{ fontSize: '25px',left: '85px', position: 'relative', marginTop: '10px', color: '#545454', maxWidth: '800px'}}>{Hotel_Location}</div>
-                <div style={{ fontWeight: 'Bold', fontSize: '50px',left: '1020px', position: 'relative', top: '-120px', color: '#1c6632'}}>${Hotel_Price}</div>
+                <div style={{ fontSize: '30px', fontWeight: 'Bold', left: '85px', position: 'relative', marginTop: '50px', display: 'block', maxWidth: '1000px'}}>{selectedHotels.hotelName}</div>
+                <div style={{ fontSize: '25px',left: '85px', position: 'relative', marginTop: '10px', maxWidth: '1000px'}}>{selectedHotels.star}-Star Hotel</div>
+                <div style={{ fontSize: '25px',left: '85px', position: 'relative', marginTop: '10px', color: '#545454', maxWidth: '800px'}}>{selectedHotels.address}</div>
+                <div style={{ fontWeight: 'Bold', fontSize: '50px',left: '1020px', position: 'relative', top: '-120px', color: '#1c6632'}}>${roomPrice}</div>
                 <button className='Booking_Button' onClick={ClickToBook}>Book Now</button>
             </div>}
             

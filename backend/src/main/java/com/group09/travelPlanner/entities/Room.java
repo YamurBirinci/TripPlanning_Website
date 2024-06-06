@@ -2,14 +2,19 @@ package com.group09.travelPlanner.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "Room")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roomTypeID;
 
-    private Integer hotelID;
     private String roomSize;
     private Integer maxAdults;
     private Integer maxChildren;
@@ -17,6 +22,7 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "hotelID", insertable = false, updatable = false)
+    @JsonIgnore
     private Hotel hotel;
 
     /**
@@ -31,20 +37,6 @@ public class Room {
      */
     public void setRoomTypeID(Integer roomTypeID) {
         this.roomTypeID = roomTypeID;
-    }
-
-    /**
-     * @return Integer return the hotelID
-     */
-    public Integer getHotelID() {
-        return hotelID;
-    }
-
-    /**
-     * @param hotelID the hotelID to set
-     */
-    public void setHotelID(Integer hotelID) {
-        this.hotelID = hotelID;
     }
 
     /**

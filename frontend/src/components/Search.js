@@ -14,25 +14,17 @@ function Search() {
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [filteredHotels, setFilteredHotels] = useState([]);
-    const [newDestination, setNewDestination] = useState('');
-    const [newStartDate, setNewStartDate] = useState('');
-    const [newEndDate, setNewEndDate] = useState('');
-
-
+    
     // URL parametrelerini doğru aldığımızdan emin olalım
     const destination = searchParams.get('destination');
     const adults = parseInt(searchParams.get('adults'), 10);
     const kids = parseInt(searchParams.get('kids'), 10);
     const start_date = searchParams.get('startDate');
     const end_date = searchParams.get('endDate');
-    
 
-    // Parametrelerin doğru şekilde alınıp alınmadığını kontrol etmek için console.log kullanın
-    console.log('Destination:', destination);
-    console.log('Adults:', adults);
-    console.log('Kids:', kids);
-    console.log('Start Date:', start_date);
-    console.log('End Date:', end_date);
+    const [newDestination, setNewDestination] = useState(destination);
+    const [newStartDate, setNewStartDate] = useState(start_date);
+    const [newEndDate, setNewEndDate] = useState(end_date);
 
     useEffect(() => {
         const fetchHotels = async () => {
@@ -55,8 +47,8 @@ function Search() {
         navigate('/MyProfile');
     };
 
-    const ClickingExplore = (hotelID) => {
-        navigate(`/SelectedHotel/${hotelID}`);
+    const ClickingExplore = (hotelID, roomTypeID) => {
+        navigate(`/SelectedHotel/${hotelID}/${roomTypeID}`);
     };
 
     const ClickingHomepage = () => {
@@ -110,7 +102,6 @@ function Search() {
         setFilteredHotels(filtered);
     };
     
-
     return (
         <div className='background'>
             <div className="Background_Rectangle" style={{ height: '900px', transform: 'scale(0.90)' }}>
@@ -128,7 +119,7 @@ function Search() {
                 </button>
 
                 <div className="container" style={{ marginTop: '30px', marginBottom: '30px' }}>
-                    <div className="text_group field" style={{ width: '280px', left: '-60px', marginRight: '10px', top:'-105px' }}>
+                    <div className="text_group field" style={{ width: '280px', left: '-65px', marginRight: '10px', top:'-105px' }}>
                         <input
                             style={{ width: '280px', left: '0px', marginRight: '10px' }}
                             type="text"
@@ -159,7 +150,7 @@ function Search() {
                         />
                         <label htmlFor="newEndDate" className="group_label"><FontAwesomeIcon icon={faCalendarDays}></FontAwesomeIcon> End Date</label>
                     </div>
-                    <button className="Find_Button" style={{ width: '250px', left: '80px', height: '68px', top:'10px' }} onClick={handleSearch}>
+                    <button className="Find_Button" style={{ width: '250px', left: '85px', height: '68px', top:'10px' }} onClick={handleSearch}>
                         <FontAwesomeIcon icon={faMagnifyingGlassLocation} style={{ color: "white", padding: '10px' }} />
                         Find New Journey
                     </button>
@@ -187,7 +178,7 @@ function Search() {
                         <div>
                             <h3 style={{ color: '#636363', borderTop: '1px solid #C9C9C9', paddingTop: '10px', marginTop: '40px' }}>Price</h3>
                             <div className="container" style={{ transform: 'scale(0.8)', height: '70px' }}>
-                            <div className="text_group field" style={{ width: '300px', left: '-10px', top: '-130px' }}>
+                            <div className="text_group field" style={{ width: '300px', left: '-0px', top: '-130px' }}>
                                 <input
                                     type="text"
                                     className="text_box"
@@ -237,7 +228,7 @@ function Search() {
                                     <div style={{ fontSize: '24px', marginTop: '10px' }}>{hotel.roomSize}</div>
                                 </div>
                                 <div style={{ position: 'fixed', fontSize: '30px', marginTop: '40px', left: '925px', zIndex: '100', color: '#1c6632' }}>${hotel.dailyPrice}</div>
-                                <button className="explore_button" onClick={() => ClickingExplore(hotel.hotelID)}>Explore!</button>
+                                <button className="explore_button" onClick={() => ClickingExplore(hotel.hotelID, hotel.roomTypeID)}>Explore!</button>
                             </div>
                         </div>
                     ))}

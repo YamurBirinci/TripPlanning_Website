@@ -2,21 +2,30 @@ package com.group09.travelPlanner.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "Review")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer reviewID;
 
     @ManyToOne
-    @JoinColumn(name = "hotelID")
+    @JoinColumn(name = "hotelID", insertable = false, updatable = false)
+    @JsonIgnore
     private Hotel hotel;
 
     private String review_text;
     private Integer cleanliness_rating;
     private Integer location_rating;
     private Integer staff_rating;
+
+    
 
     // Getters and Setters
 

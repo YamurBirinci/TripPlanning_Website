@@ -2,8 +2,14 @@ package com.group09.travelPlanner.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "Hotelimages")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Hotelimages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,7 +18,8 @@ public class Hotelimages {
     private String imageURL;
 
     @ManyToOne
-    @JoinColumn(name = "hotelID", nullable = false)
+    @JoinColumn(name = "hotelID", insertable = false, updatable = false)
+    @JsonIgnore
     private Hotel hotel;
 
 

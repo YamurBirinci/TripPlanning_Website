@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 
-    @Query("SELECT DISTINCT h, rt.roomSize, rt.dailyPrice, MIN(hi.imageURL) as imageURL FROM Hotel h " +
+    @Query("SELECT DISTINCT h, rt.roomTypeID, rt.roomSize, rt.dailyPrice, MIN(hi.imageURL) as imageURL FROM Hotel h " +
            "JOIN h.rooms rt " +
            "LEFT JOIN h.hotelimages hi " +
            "LEFT JOIN Reservation r ON h.hotelID = r.hotel.hotelID " +
@@ -20,7 +20,7 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
            "AND rt.maxAdults >= :adults " +
            "AND rt.maxChildren >= :kids " +
            "AND r.reservationID IS NULL " +
-           "GROUP BY h, rt.roomSize, rt.dailyPrice")
+           "GROUP BY h, rt.roomTypeID, rt.roomSize, rt.dailyPrice")
     List<Object[]> searchHotels(
         @Param("destination") String destination, 
         @Param("adults") int adults, 
@@ -28,4 +28,14 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
         @Param("start_date") Date start_date, 
         @Param("end_date") Date end_date
     );
+
+    @Query("SELECT h, r, re, hi, a " +
+           "FROM Hotel h " +
+           "LEFT JOIN h.rooms r " +
+           "LEFT JOIN h.reviews re " +
+           "LEFT JOIN h.hotelimages hi " +
+           "LEFT JOIN Amenity a ON h.hotelID = a.hotel.hotelID " +
+           "WHERE h.hotelID = :hotelID AND r.roomTypeID = :roomTypeID")
+    List<Object[]> findHotelDetailsByIdAndRoomType(@Param("hotelID") int hotelID, @Param("roomTypeID") int roomTypeID);
+
 }
