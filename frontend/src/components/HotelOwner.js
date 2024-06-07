@@ -4,17 +4,19 @@ import '../styles/HotelOwner.css';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHouse, faLocationDot, faRightFromBracket, faMagnifyingGlass, faUser, faSquarePlus, faHotel, faPenToSquare, faMoon} from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '../context/AuthContext'; // AuthContext'ten user'ı alın
+import { useAuth } from '../context/AuthContext';
 
 function HotelOwner() {
+ 
+    const [activeButton, setActiveButton] = useState('MyHotels');
+    const [activePanel, setActivePanel] = useState('MyHotels-Panel');
+    const [reservations, setReservations] = useState([]);
+    const { user, logout } = useAuth();
     const [selectedHotels, setSelectedHotels] = useState([]);
     const [selectedMonths, setSelectedMonths] = useState([]);
     const [selectedStatuses, setSelectedStatuses] = useState([]);
     const [unselectedAmenities, setUnselectedAmenities] = useState(['Please Select Amenities','Free Internet Access', 'Swimming Pool','Fitness Center','Business Center','Non Smoking Rooms','Restaurant','Accessible Rooms','Airport Shuttle','Free Breakfast','Pets Allowed','Tennis court & Equipment','Free Parking','Spa/Sauna','Playground for children','Golf Course']);
     const [selectedAmenities, setSelectedAmenities] = useState([]);
-    const [activeButton, setActiveButton] = useState('MyHotels');
-    const [activePanel, setActivePanel] = useState('MyHotels-Panel');
-    const { user } = useAuth();
     const [newHotel, setNewHotel] = useState({
         hotelName: '',
         location: '',
@@ -22,17 +24,6 @@ function HotelOwner() {
         star: 0,
         price: 0
     });
-    const [reservations, setReservations] = useState([]);
-
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const statuses = ['Inactive', 'Active'];
-
-    const navigate = useNavigate();
-    const ClickingHomepage = () => {
-        navigate('/');
-    };
-
-    
 
     const SelectingAmenities = (event) => {
         const value = event.target.value;
@@ -45,42 +36,64 @@ function HotelOwner() {
             setSelectedAmenities([...selectedAmenities, value]);
         }
     };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const hotelData = {
+            hotel_name: "Sample Hotel",
+            address: "123 Sample Street",
+            star: 5,
+            status: "pending",
+            userId: 1  // Ensure this matches an existing user ID in your database
+        };
+    
+        try {
+            const response = await fetch("http://localhost:8081/api/hotels/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(hotelData),
+            });
+    
+            const result = await response.json();
+            if (response.ok) {
+                console.log("Hotel added successfully:", result);
+            } else {
+                console.error("Error submitting new hotel:", result.message);
+            }
+        } catch (error) {
+            console.error("Error submitting new hotel:", error);
+        }
+    };
+    
+    
     
     const removeAmenities = (feature) => {
         setSelectedAmenities(selectedAmenities.filter(features => features !== feature));
     };
 
-    const FilterHotel = (hotel) => {
-        const newSelection = [...selectedHotels];
-        if (selectedHotels.includes(hotel)) {
-            const hotelIndex = newSelection.indexOf(hotel);
-            newSelection.splice(hotelIndex, 1);
-        } else {
-            newSelection.push(hotel);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetchHotelData();
+    }, []);
+
+    const fetchHotelData = async () => {
+        try {
+            const response = await fetch(`http://localhost:8081/api/hotels/user/${user.userId}`);
+            const data = await response.json();
+            setReservations(data);
+            console.log(data);
+        
+        } 
+        catch (error) {
+            console.error('Error fetching data:', error);
         }
-        setSelectedHotels(newSelection);
     };
-    
-    const FilterMonth = (month) => {
-        const newSelection = [...selectedMonths];
-        if (selectedMonths.includes(month)) {
-            const monthIndex = newSelection.indexOf(month);
-            newSelection.splice(monthIndex, 1);
-        } else {
-            newSelection.push(month);
-        }
-        setSelectedMonths(newSelection);
-    };
-    
-    const FilterStatu = (status) => {
-        const newSelection = [...selectedStatuses];
-        if (selectedStatuses.includes(status)) {
-            const statusIndex = newSelection.indexOf(status);
-            newSelection.splice(statusIndex, 1);
-        } else {
-            newSelection.push(status);
-        }
-        setSelectedStatuses(newSelection);
+
+    const ClickingHomepage = () => {
+        navigate('/');
     };
 
     const clickingButton = (buttonID, panelName) => {
@@ -90,10 +103,6 @@ function HotelOwner() {
 
     const ConfirmToCancel = () => {
         window.confirm("Are you sure?");
-    };
-
-    const handleSubmit = async () => {
-        
     };
 
     return (
@@ -106,19 +115,14 @@ function HotelOwner() {
                         onMouseLeave={event => event.currentTarget.style.transform = 'translateX(+65px)'}>
                         <FontAwesomeIcon icon={faHouse} style={{ fontSize: '18px', color: "black", marginRight: '15px'}} /> Main
                     </button>
-                <button style={{left: '255px'}} className={`ProfileButton ${activeButton === 'MyHotels' ? 'Active-ProfileButton' : ''}`}
+                <button style={{left: '625px'}} className={`ProfileButton ${activeButton === 'MyHotels' ? 'Active-ProfileButton' : ''}`}
                     onClick={() => clickingButton('MyHotels', 'MyHotels-Panel')}>
                     <FontAwesomeIcon icon={faHotel}></FontAwesomeIcon> My Hotels
                 </button >
-                <button style={{left: '255px'}} className={`ProfileButton ${activeButton === 'Reservations' ? 'Active-ProfileButton' : ''}`}
-                    onClick={() => clickingButton('Reservations', 'Reservations-Panel')}>
-                    <FontAwesomeIcon icon={faUser}></FontAwesomeIcon> Reservations
-                </button>
-                <button style={{left: '255px'}} className={`ProfileButton ${activeButton === 'AddHotel' ? 'Active-ProfileButton' : ''}`}
+                <button style={{left: '625px'}} className={`ProfileButton ${activeButton === 'AddHotel' ? 'Active-ProfileButton' : ''}`}
                     onClick={() => clickingButton('AddHotel', 'AddHotel-Panel')}>
                     <FontAwesomeIcon icon={faSquarePlus}></FontAwesomeIcon> Add Hotel
                 </button>
-                <button className='ProfileButton' style={{left: '255px'}}> <FontAwesomeIcon icon={faRightFromBracket}></FontAwesomeIcon> Log Out</button>
 
                 <div className="line" style={{ top: '220px'}}></div>
 
@@ -172,90 +176,17 @@ function HotelOwner() {
                 {activePanel === 'MyHotels-Panel' && <div className='MyHotels-Panel'>
                     <div className="ProfileButton-Panel-Container">
                         <div className='Scroll-Area' style={{top: '-25px', position: 'relative', height: '630px'}}>
-                            {reservations.map(reservation => (
-                                <div key={reservation.reservationID}> 
+                            {reservations.map((reservation, index) => (
+                                <div key={index}> 
                                     <div className="Search-Container">
-                                        <img className='Search-Image' src={reservation.hotel.imageURL} alt={reservation.hotel.hotelName}></img>
                                         <div>
-                                            <div style={{fontWeight: 'bold', fontSize: '28px', marginBottom: '5px'}}>{reservation.hotel.hotelName}</div>
-                                            <div style={{color: 'rgb(83, 83, 83)', fontSize: '24px', marginBottom: '5px'}}>{reservation.hotel.star}-Star Hotel</div>
-                                            <div style={{fontSize: '24px'}}>{reservation.hotel.address}</div>
+                                            <div style={{fontWeight: 'bold', fontSize: '28px', marginBottom: '5px'}}>{reservation.hotel_name}</div>
+                                            <div style={{color: 'rgb(83, 83, 83)', fontSize: '24px', marginBottom: '5px'}}>{reservation.star}-Star Hotel</div>
+                                            <div style={{fontSize: '24px'}}>{reservation.address}</div>
                                         </div>
-                                    </div>
-                                    <button className="owner_button" onClick={ConfirmToCancel}><FontAwesomeIcon icon={faMoon}></FontAwesomeIcon> Vacation Mode</button>  
-                                    <button className="owner_button" style={{width: '150px'}}><FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon> Edit!</button>
+                                    </div> 
                                 </div>
                             ))} 
-                        </div>
-                    </div>
-                </div>}
-
-                {activePanel === 'Reservations-Panel' && <div className='Reservations-Panel'>
-                    <div className="ProfileButton-Panel-Container" >
-                        <div style={{display: 'flex'}}>
-                            <div className='filter' style={{paddingLeft: '15px'}}>
-                                <div>
-                                    <h3 style={{color: '#343434'}}>Hotel Name</h3>
-                                    {reservations.map(reservation => (
-                                        <div key={reservation.reservationID}>
-                                            <label>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedHotels.includes(reservation.hotel.hotelName)}
-                                                    onChange={() => FilterHotel(reservation.hotel.hotelName)}
-                                                />
-                                                {reservation.hotel.hotelName}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div>
-                                    <h3 style={{color: '#343434',borderTop: '1px solid #C9C9C9', paddingTop: '10px'}}>Rez Month</h3>
-                                    {months.map((month, index) => (
-                                        <div key={index}>
-                                            <label>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedMonths.includes(month)}
-                                                    onChange={() => FilterMonth(month)}
-                                                />
-                                                {month}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div>
-                                    <h3 style={{color: '#343434',borderTop: '1px solid #C9C9C9', paddingTop: '10px'}} >Rez Status</h3>
-                                    {statuses.map((status, index) => (
-                                        <div key={index}>
-                                            <label>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedStatuses.includes(status)}
-                                                    onChange={() => FilterStatu(status)}
-                                                />
-                                                {status}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                                <button className='Submit-Search-Button'> <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon> Filter</button>
-                            </div>
-                            <div className='Scrolling-Area' >
-                                {reservations.map(reservation => (
-                                    <div key={reservation.reservationID}> 
-                                        <div className="Search-Container" style={{transform: 'scale(0.85)', left: '-70px', marginBottom: '-60px'}}>
-                                            <img className='Search-Image' src={reservation.hotel.imageURL} alt={reservation.hotel.hotelName}></img>
-                                            <div>
-                                                <div style={{fontWeight: 'bold', fontSize: '28px', marginBottom: '5px'}}>{reservation.hotel.hotelName}</div>
-                                                <div style={{color: 'rgb(83, 83, 83)', fontSize: '24px', marginBottom: '5px'}}>{reservation.startDate} - {reservation.endDate}</div>
-                                                <div style={{fontSize: '24px', color: 'green', fontWeight: 'bold'}}>${reservation.room.dailyPrice}</div>
-                                            </div>
-                                        </div>
-                                        <button className="cancel_button" style={{transform: 'scale(0.8)', left: '690px', fontSize: '22px', width: '250px', height: '50px', borderRadius: '15px'}} onClick={ConfirmToCancel}>Cancel the Reservation!</button> 
-                                    </div>
-                                ))} 
-                            </div>
                         </div>
                     </div>
                 </div>}

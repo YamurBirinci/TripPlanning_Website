@@ -1,5 +1,6 @@
 package com.group09.travelPlanner.controller;
 
+import com.group09.travelPlanner.responses.AddingHotelData;
 import com.group09.travelPlanner.responses.HotelResponse;
 import com.group09.travelPlanner.responses.SearchResponse;
 import com.group09.travelPlanner.entities.Amenity;
@@ -8,9 +9,11 @@ import com.group09.travelPlanner.entities.Hotelimages;
 import com.group09.travelPlanner.services.HotelImageService;
 import com.group09.travelPlanner.services.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,6 +131,26 @@ public class HotelController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Map<String, String>> addHotel(@RequestBody AddingHotelData addingHotelData) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            hotelService.addHotel(addingHotelData);
+            response.put("message", "Hotel added successfully");
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        } catch (Exception e) {
+            response.put("message", "Failed to add hotel: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+
+
+    
 
     
 }

@@ -11,8 +11,8 @@ public class HotelRequest {
     private List<String> amenities;
     private List<String> images;
     private String status;
+    private Long userID;
 
-    // Constructor for first case
     public HotelRequest(Integer hotelID, String hotel_name, String address, Integer star, Integer price, List<String> amenities, List<String> images) {
         this.hotelID = hotelID;
         this.hotel_name = hotel_name;
@@ -23,7 +23,6 @@ public class HotelRequest {
         this.images = images;
     }
 
-    // Constructor for second case
     public HotelRequest(String hotel_name, String address, int star, String status) {
         this.hotel_name = hotel_name;
         this.address = address;
@@ -31,6 +30,14 @@ public class HotelRequest {
         this.status = status;
     }
 
+    public HotelRequest(Integer hotelID, String hotelName, String address, Integer star, String status, Long userID) {
+        this.hotelID = hotelID;
+        this.hotel_name = hotelName;
+        this.address = address;
+        this.star = star;
+        this.status = status;
+        this.userID = userID;
+    }
 
     // Getter and Setter methods...
     
@@ -97,4 +104,19 @@ public class HotelRequest {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    /**
+     * @return Long return the userID
+     */
+    public Long getUserID() {
+        return userID;
+    }
+
+    /**
+     * @param userID the userID to set
+     */
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
 }

@@ -7,7 +7,9 @@ import com.group09.travelPlanner.entities.Review;
 import com.group09.travelPlanner.entities.Room;
 import com.group09.travelPlanner.entities.User;
 import com.group09.travelPlanner.repository.HotelRepository;
+import com.group09.travelPlanner.repository.UserRepository;
 import com.group09.travelPlanner.requests.HotelRequest;
+import com.group09.travelPlanner.responses.AddingHotelData;
 import com.group09.travelPlanner.responses.HotelResponse;
 import com.group09.travelPlanner.responses.SearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class HotelService {
 
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<SearchResponse> getAllHotels() {
         List<Hotel> hotels = hotelRepository.findAll();
@@ -218,6 +223,25 @@ public class HotelService {
         return hotelRepository.findByUser(user);
     }
 
+    public void addHotel(AddingHotelData addingHotelData) {
+        if (addingHotelData.getUserId() == null) {
+            throw new IllegalArgumentException("User ID must not be null");
+        }
+
+        Hotel hotel = new Hotel();
+        hotel.setHotel_name(addingHotelData.getHotel_name());
+        hotel.setAddress(addingHotelData.getAddress());
+        hotel.setStar(addingHotelData.getStar());
+        hotel.setStatus(addingHotelData.getStatus());
+
+        User user = userRepository.findById(addingHotelData.getUserId())
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + addingHotelData.getUserId()));
+        hotel.setUser(user);
+
+        hotelRepository.save(hotel);
+    }
     
+
     
+        
 }

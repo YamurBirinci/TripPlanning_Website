@@ -60,7 +60,7 @@ function AdminHotelOwnerTable() {
             .then(response => response.json())
             .then(data => {
                 setRows([...rows, data]);
-                setNewOwner({ first_name: '', last_name: '', role: 'hotel_owner' });
+                setNewOwner({ first_name: '', last_name: '', role: 'owner' });
             })
             .catch(error => console.error('Error creating hotel owner:', error));
         }

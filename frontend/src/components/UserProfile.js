@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext'; // AuthContext'ten user'Ä± alÄ
 function UserProfile() {
 
     const [activeButton, setActiveButton] = useState('MyProfile');
-    const [activePanel, setActivePanel] = useState('MyProfile-Panel');
+    const [activePanel, setActivePanel] = useState('MyReservations-Panel');
     const [reservations, setReservations] = useState([]);
     const { user } = useAuth();
 
@@ -86,17 +86,7 @@ function UserProfile() {
         setActivePanel(panelName);
     };
 
-    return (
-        <div className='background'>
-            <div className="Background_Rectangle" style={{ height: '800px', transform: 'scale(0.90)'}}>
-                <button className="name_logo" style={{ height: '100px', border: '0px', backgroundColor: 'transparent', left: '70px'}} onClick={ClickingHomepage} ></button>
-                    <div className="Layer" style={{top: '25px',width: '77px'}}></div>
-                    <button className="Button" style={{ transform: 'translateX(+65px)', top: '45px', color: 'black'}} onClick={ClickingHomepage}
-                        onMouseEnter={event => event.currentTarget.style.transform = 'translateX(0)'}
-                        onMouseLeave={event => event.currentTarget.style.transform = 'translateX(+65px)'}>
-                        <FontAwesomeIcon icon={faHouse} style={{ fontSize: '18px', color: "black", marginRight: '15px'}} /> Main
-                    </button>
-                <button className={`ProfileButton ${activeButton === 'MyProfile' ? 'Active-ProfileButton' : ''}`}
+    /*<button className={`ProfileButton ${activeButton === 'MyProfile' ? 'Active-ProfileButton' : ''}`}
                     onClick={() => clickingButton('MyProfile', 'MyProfile-Panel')}>
                     <FontAwesomeIcon icon={faUser}></FontAwesomeIcon> My Profile
                 </button>
@@ -107,7 +97,24 @@ function UserProfile() {
                 <button className={`ProfileButton ${activeButton === 'MyDiscounts' ? 'Active-ProfileButton' : ''}`}
                     onClick={() => clickingButton('MyDiscounts', 'MyDiscounts-Panel')}>
                     <FontAwesomeIcon icon={faCoins}></FontAwesomeIcon> My Discounts
+                </button>*/
+
+    return (
+        <div className='background'>
+            <div className="Background_Rectangle" style={{ height: '800px', transform: 'scale(0.90)'}}>
+                <button className="name_logo" style={{ height: '100px', border: '0px', backgroundColor: 'transparent', left: '70px'}} onClick={ClickingHomepage} ></button>
+                    <div className="Layer" style={{top: '25px',width: '77px'}}></div>
+                    <button className="Button" style={{ transform: 'translateX(+65px)', top: '45px', color: 'black'}} onClick={ClickingHomepage}
+                        onMouseEnter={event => event.currentTarget.style.transform = 'translateX(0)'}
+                        onMouseLeave={event => event.currentTarget.style.transform = 'translateX(+65px)'}>
+                        <FontAwesomeIcon icon={faHouse} style={{ fontSize: '18px', color: "black", marginRight: '15px'}} /> Main
+                    </button>
+
+                <button className={`ProfileButton ${activeButton === 'MyReservations' ? 'Active-ProfileButton' : ''}`}
+                    onClick={() => clickingButton('MyReservations', 'MyReservations-Panel')}>
+                    <FontAwesomeIcon icon={faBed}></FontAwesomeIcon> My Reservations
                 </button>
+
                 <button className= 'ProfileButton'> <FontAwesomeIcon icon={faRightFromBracket}></FontAwesomeIcon> Log Out</button>
 
                 <div className="line" style={{ top: '220px'}}></div>

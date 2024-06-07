@@ -175,10 +175,6 @@ function SelectedHotel() {
                         onClick={() => clickingButton('Reviews', 'Reviews-Panel')}>
                         Reviews
                     </button> 
-                    <button className={`Hotel_Detail_Button ${activeButton === 'Location' ? 'Active-Hotel_Detail_Button' : ''}`}
-                        onClick={() => clickingButton('Location', 'Location-Panel')}>
-                        Location
-                    </button>  
                     <button className={`Hotel_Detail_Button ${activeButton === 'Explore' ? 'Active-Hotel_Detail_Button' : ''}`}
                         onClick={() => clickingButton('Explore', 'Explore-Panel')}>
                         Explore
