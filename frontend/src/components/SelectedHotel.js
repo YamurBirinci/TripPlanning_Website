@@ -171,10 +171,11 @@ function SelectedHotel() {
                         onClick={() => clickingButton('Amenities', 'Amenities-Panel')}>
                         Amenities
                     </button>
+                    {user && (
                     <button className={`Hotel_Detail_Button ${activeButton === 'Reviews' ? 'Active-Hotel_Detail_Button' : ''}`}
                         onClick={() => clickingButton('Reviews', 'Reviews-Panel')}>
                         Reviews
-                    </button> 
+                    </button> )}
                     <button className={`Hotel_Detail_Button ${activeButton === 'Explore' ? 'Active-Hotel_Detail_Button' : ''}`}
                         onClick={() => clickingButton('Explore', 'Explore-Panel')}>
                         Explore
