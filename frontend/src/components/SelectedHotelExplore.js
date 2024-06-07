@@ -1,61 +1,78 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from 'react';
 import '../styles/SelectedHotelExplore.css'; 
 import ExploreDetailModal from './ExploreDetailModal'; 
-import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-import Ceramica_Triana1 from '../images/Ceramica_Triana1.jpg';
-import Ceramica_Triana2 from '../images/Ceramica_Triana2.jpg';
-import Ceramica_Triana3 from '../images/Ceramica_Triana3.jpg';
-import Ceramica_Triana4 from '../images/Ceramica_Triana4.jpg';
-import Ceramica_Triana5 from '../images/Ceramica_Triana5.jpg';
-import Ceramica_Triana6 from '../images/Ceramica_Triana6.jpg';
-
-import Real_Alcazar1 from '../images/Real_Alcazar1.jpg';
-import Real_Alcazar2 from '../images/Real_Alcazar2.jpg';
-import Real_Alcazar3 from '../images/Real_Alcazar3.jpg';
-import Real_Alcazar4 from '../images/Real_Alcazar4.jpg';
-import Real_Alcazar5 from '../images/Real_Alcazar5.jpg';
-import Real_Alcazar6 from '../images/Real_Alcazar6.jpg';
-
-const Places = {
-    "Hotel Angeles Center": ["Ceramicas Sevilla", "Real Alcazar", "Ceramicas Sevilla", "Real Alcazar", "Ceramicas Sevilla", "Real Alcazar", "Ceramicas Sevilla", "Real Alcazar"],
-    "Hotel Giralda Center": ["Blanca Paloma"]
-};
-
-const images = {
-    "Ceramicas Sevilla": [Ceramica_Triana1, Ceramica_Triana2, Ceramica_Triana3, Ceramica_Triana4, Ceramica_Triana5, Ceramica_Triana6],
-    "Real Alcazar": [Real_Alcazar1, Real_Alcazar2, Real_Alcazar3, Real_Alcazar4, Real_Alcazar5, Real_Alcazar6]
-};
-
-const reviews = [
-    { name: 'Ceramicas Sevilla', date:"Feb 24, 2024" , rate: 9, comment: "Many thanks to the staff who answered all our questions with respect and love throughout the workshop. It was an incredibly enjoyable experience." },
-    { name: 'Ceramicas Sevilla', date:"Feb 22, 2024" , rate: 8, comment: "It is incredibly rich in product variety, the employees are very polite." },
-    { name: 'Ceramicas Sevilla', date:"Feb 16, 2024" , rate: 7, comment: "Many thanks to the staff who answered all our questions with respect and love throughout the workshop. It was an incredibly enjoyable experience." },
-    { name: 'Ceramicas Sevilla', date:"Feb 10, 2024" , rate: 2, comment: "It is ok." },
-    { name: 'Real Alcazar', date:"Feb 18, 2024" , rate: 7, comment: "It is incredibly rich in product variety, the employees are very polite." },
-    { name: 'Real Alcazar', date:"Feb 10, 2024" , rate: 5, comment: "I like there." },
-];
-
-const info = [
-    { name: 'Ceramicas Sevilla', type:"Antique Shops & Workshop" , definition: "It is an antique store where ceramic products have been exhibited and sold since 1952. Ceramics workshops can be held by reservation."},
-    { name: 'Real Alcazar', type:"Restaurant" , definition: "It is a restaurant founded in 1898 by famous chef Yağmur Helin Sucuoğlu Oğuz."},
-];
-
-
-function SelectedHotelExplore({ explores }) {
+function SelectedHotelExplore({ hotelID }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlace, setSelectedPlace] = useState(null);
+    const [explores, setExplores] = useState([]);
+    const [images, setImages] = useState({});
+    const [reviews, setReviews] = useState({});
 
-    const getPlaceInfo = (placeName) => info.find(place => place.name === placeName);
-    const getPlaceReviews = (placeName) => reviews.filter(review => review.name === placeName);
+    useEffect(() => {
+        const fetchHotelExplores = async () => {
+            if (!hotelID) return;
 
-    const getAverageRate = (placeName) => {
-        const targetPlaceReviews = reviews.filter(review => review.name===placeName && review.rate!=null);
+            try {
+                const response = await fetch(`/api/hotels/${hotelID}/explores`);
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    const dataWithIds = data.map((explore, index) => ({ ...explore, exploreID: index + 1 }));
+                    setExplores(dataWithIds);
+                    dataWithIds.forEach(explore => {
+                        fetchExploreImages(explore.exploreID);
+                        fetchExploreReviews(explore.exploreID);
+                    });
+                } else {
+                    console.error('Invalid data format:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching explores:', error);
+            }
+        };
 
-        const totalRate = targetPlaceReviews.reduce((total,review) => total+ review.rate, 0);
+        fetchHotelExplores();
+    }, [hotelID]);
+
+    const fetchExploreImages = async (exploreID) => {
+        if (!exploreID) return;
+        try {
+            const response = await fetch(`/api/explores/${exploreID}/images`);
+            let data = await response.json();
+            if (Array.isArray(data)) {
+                data = data.map(img => `${process.env.PUBLIC_URL}/images/${img}`);
+                setImages(prevImages => ({ ...prevImages, [exploreID]: data }));
+            } else {
+                console.error('Invalid data format for images:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching images:', error);
+        }
+    };
+
+    const fetchExploreReviews = async (exploreID) => {
+        if (!exploreID) return;
+        try {
+            const response = await fetch(`/api/explores/${exploreID}/reviews`);
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                setReviews(prevReviews => ({ ...prevReviews, [exploreID]: data }));
+            } else {
+                console.error('Invalid data format for reviews:', data);
+            }
+        } catch (error) {
+            console.error('Error fetching reviews:', error);
+        }
+    };
+
+    const getPlaceReviews = (exploreID) => reviews[exploreID] || [];
+
+    const getAverageRate = (exploreID) => {
+        const targetPlaceReviews = reviews[exploreID] || [];
+        const totalRate = targetPlaceReviews.reduce((total, review) => total + (review.rate || 0), 0);
         const averageRate = (targetPlaceReviews.length > 0 ? totalRate / targetPlaceReviews.length : '');
-
         return averageRate;
     };
 
@@ -63,33 +80,34 @@ function SelectedHotelExplore({ explores }) {
         setSelectedPlace(explore);
         setIsModalOpen(true);
     };
-    
+
     return (
         <div className='Explore-Container'>
-            <div className="Places-Container" >
-            {Places[explores].map(explore => (
-                <button className="Places-Item" key={explore} onClick={() => openModal(explore)}>
-                    <img className='Photo-Container' src={images[explore][0]} alt={explore} />
-                    <div className='Explanation-Container' >
-                        <div className='Header-Container' style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold', fontSize:'20px'}}>{explore}</div>
-                        <FontAwesomeIcon icon={faStar} style={{ color: "#e6b70f", left: '-5px', position: 'relative', marginRight: '-2px', fontSize:'20px'}} /> {getAverageRate(explore)}
-                    </div>
-                </button>
-            ))}
+            <div className="Places-Container">
+                {explores.map(explore => (
+                    <button className="Places-Item" key={explore.exploreID} onClick={() => openModal(explore)}>
+                        {images[explore.exploreID] && images[explore.exploreID][0] && (
+                            <img className='Photo-Container' src={images[explore.exploreID][0]} alt={explore.explore_name} />
+                        )}
+                        <div className='Explanation-Container'>
+                            <div className='Header-Container' style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold', fontSize: '20px' }}>{explore.explore_name}</div>
+                            <FontAwesomeIcon icon={faStar} style={{ color: "#e6b70f", left: '-5px', position: 'relative', marginRight: '-2px', fontSize: '20px' }} /> {getAverageRate(explore.exploreID)}
+                        </div>
+                    </button>
+                ))}
             </div>
 
-            <ExploreDetailModal 
-                isOpen={isModalOpen} 
-                closeModal={() =>setIsModalOpen(false)} 
-                placeInfo={getPlaceInfo(selectedPlace)}
-                placeReviews= {getPlaceReviews(selectedPlace)} 
-                images= {images[selectedPlace]}
-            />
+            {selectedPlace && (
+                <ExploreDetailModal 
+                    isOpen={isModalOpen} 
+                    closeModal={() => setIsModalOpen(false)} 
+                    placeInfo={selectedPlace} 
+                    placeReviews={getPlaceReviews(selectedPlace.exploreID)}
+                    images={images[selectedPlace.exploreID] || []}
+                />
+            )}
         </div>
-        
     );
 }
-
-
 
 export default SelectedHotelExplore;

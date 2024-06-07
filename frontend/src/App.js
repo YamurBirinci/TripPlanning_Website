@@ -9,24 +9,33 @@ import Payment from './components/Payment';
 import Search from './components/Search'; 
 import HotelOwner from './components/HotelOwner'; 
 import Admin from './components/Admin'; 
+import PrivateRoute from './components/PrivateRoute'; 
+import { AuthProvider } from './context/AuthContext'; 
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/Signup" element={<SignUp />} />
-        <Route path="/" element={<Homepage />} />
-        <Route path="/Login" element={<LogIn />} />
-        <Route path="/MyProfile" element={<UserProfile />} />
-        <Route path="/Payment" element={<Payment />} />
-        <Route path="/SelectedHotel/:hotelID/:roomTypeID" element={<SelectedHotel />} />
-        <Route path="/Search" element={<Search />} />
-        <Route path="/HotelOwner" element={<HotelOwner />} />
-        <Route path="/Admin" element={<Admin />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/Signup" element={<SignUp />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="/Login" element={<LogIn />} />
+          <Route path="/Payment" element={<Payment />} />
+          <Route path="/SelectedHotel/:hotelID/:roomTypeID" element={<SelectedHotel />} />
+          <Route path="/Search" element={<Search />} />
+          <Route element={<PrivateRoute roles={['customer']} />}>
+            <Route path="/MyProfile" element={<UserProfile />} />
+          </Route>
+          <Route element={<PrivateRoute roles={['owner']} />}>
+            <Route path="/HotelOwner" element={<HotelOwner />} />
+          </Route>
+          <Route element={<PrivateRoute roles={['admin']} />}>
+            <Route path="/Admin" element={<Admin />} />
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
 export default App;
-

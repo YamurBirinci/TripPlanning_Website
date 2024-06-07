@@ -46,6 +46,7 @@
     object-fit: cover;
     background-color: black;
     height: 160px;
+    width: 80px;
     display: flex;
     left: 8px;    
     margin-top: 0px;

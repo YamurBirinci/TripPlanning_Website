@@ -12,6 +12,7 @@ import java.util.List;
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer hotelID;
 
     private String hotel_name;
@@ -32,7 +33,21 @@ public class Hotel {
     private List<Hotelimages> hotelimages;
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Amenity> amenity;
+
+    @ManyToMany
+    @JoinTable(
+        name = "Hotel_Explore",
+        joinColumns = @JoinColumn(name = "hotelID"),
+        inverseJoinColumns = @JoinColumn(name = "exploreID")
+    )
+    @JsonIgnore
+    private List<Explore> explore_locations;
+
+    @ManyToOne
+    @JoinColumn(name = "userID")
+    private User user;
 
 
     /**
@@ -148,4 +163,48 @@ public class Hotel {
     }
 
     
+
+    /**
+     * @return List<Amenity> return the amenity
+     */
+    public List<Amenity> getAmenity() {
+        return amenity;
+    }
+
+    /**
+     * @param amenity the amenity to set
+     */
+    public void setAmenity(List<Amenity> amenity) {
+        this.amenity = amenity;
+    }
+
+    /**
+     * @return List<Explore> return the explore_locations
+     */
+    public List<Explore> getExplore_locations() {
+        return explore_locations;
+    }
+
+    /**
+     * @param explore_locations the explore_locations to set
+     */
+    public void setExplore_locations(List<Explore> explore_locations) {
+        this.explore_locations = explore_locations;
+    }
+
+
+    /**
+     * @return User return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

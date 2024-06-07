@@ -1,6 +1,7 @@
 package com.group09.travelPlanner.responses;
 
 import com.group09.travelPlanner.entities.Amenity;
+import com.group09.travelPlanner.entities.Hotel;
 import com.group09.travelPlanner.entities.Hotelimages;
 import com.group09.travelPlanner.entities.Review;
 import com.group09.travelPlanner.entities.Room;
@@ -18,6 +19,17 @@ public class HotelResponse {
     private List<Review> reviews = new ArrayList<>();
     private List<Hotelimages> images = new ArrayList<>();
     private List<Amenity> amenities = new ArrayList<>();
+
+    public HotelResponse(Hotel hotel) {
+        this.hotelID = hotel.getHotelID();
+        this.hotelName = hotel.getHotel_name();
+        this.address = hotel.getAddress();
+        this.star = hotel.getStar();
+        this.status = hotel.getStatus();
+    }
+
+    public HotelResponse() {
+    }
 
     // Getter and Setter methods...
 

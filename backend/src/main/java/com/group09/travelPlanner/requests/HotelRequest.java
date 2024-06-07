@@ -1,67 +1,100 @@
 package com.group09.travelPlanner.requests;
 
+import java.util.List;
+
 public class HotelRequest {
+    private Integer hotelID;
     private String hotel_name;
     private String address;
-    private int star;
+    private Integer star;
+    private Integer price;
+    private List<String> amenities;
+    private List<String> images;
     private String status;
 
-    // Getters and setters
+    // Constructor for first case
+    public HotelRequest(Integer hotelID, String hotel_name, String address, Integer star, Integer price, List<String> amenities, List<String> images) {
+        this.hotelID = hotelID;
+        this.hotel_name = hotel_name;
+        this.address = address;
+        this.star = star;
+        this.price = price;
+        this.amenities = amenities;
+        this.images = images;
+    }
 
-    /**
-     * @return String return the hotel_name
-     */
-    public String gethotel_name() {
+    // Constructor for second case
+    public HotelRequest(String hotel_name, String address, int star, String status) {
+        this.hotel_name = hotel_name;
+        this.address = address;
+        this.star = star;
+        this.status = status;
+    }
+
+
+    // Getter and Setter methods...
+    
+    public Integer getHotelID() {
+        return hotelID;
+    }
+
+    public void setHotelID(Integer hotelID) {
+        this.hotelID = hotelID;
+    }
+
+    public String getHotel_name() {
         return hotel_name;
     }
 
-    /**
-     * @param hotel_name the hotel_name to set
-     */
-    public void sethotel_name(String hotel_name) {
+    public void setHotel_name(String hotel_name) {
         this.hotel_name = hotel_name;
     }
 
-    /**
-     * @return String return the address
-     */
     public String getAddress() {
         return address;
     }
 
-    /**
-     * @param address the address to set
-     */
     public void setAddress(String address) {
         this.address = address;
     }
 
-    /**
-     * @return int return the star
-     */
-    public int getStar() {
+    public Integer getStar() {
         return star;
     }
 
-    /**
-     * @param star the star to set
-     */
-    public void setStar(int star) {
+    public void setStar(Integer star) {
         this.star = star;
     }
 
-    /**
-     * @return String return the status
-     */
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public List<String> getAmenities() {
+        return amenities;
+    }
+
+    public void setAmenities(List<String> amenities) {
+        this.amenities = amenities;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
     public String getStatus() {
         return status;
     }
 
-    /**
-     * @param status the status to set
-     */
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

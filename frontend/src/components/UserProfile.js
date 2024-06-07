@@ -1,24 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/UserProfile.css';
 import '../styles/Primary.css'; 
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faHouse, faCoins, faBed, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
-import Angeles1 from '../images/Angeles1.PNG';
-import Angeles5 from '../images/Angeles5.PNG';
-
-const UserReservations = [
-    { Rez_Date: "13/08/2024 - 16/08/2024", Hotel_Name: "Hotel Angeles Center", Hotel_Info: "4-Star Hotel", Hotel_Location: "Calle Juan De Mata Carriazo 7, Seville, Spain", Hotel_Price: 146, image: Angeles1 },
-    { Rez_Date: "29/05/2024 - 04/09/2024", Hotel_Name: "Hotel Cervantes", Hotel_Info: "5-Star Hotel", Hotel_Location: "Old Town, Seville, Spain", Hotel_Price: 176, image: Angeles5},
-];
-
+import { useAuth } from '../context/AuthContext'; // AuthContext'ten user'ı alın
 
 function UserProfile() {
 
     const [activeButton, setActiveButton] = useState('MyProfile');
     const [activePanel, setActivePanel] = useState('MyProfile-Panel');
+    const [reservations, setReservations] = useState([]);
+    const { user } = useAuth();
 
     const navigate = useNavigate();
+    console.log(user);
+
+    useEffect(() => {
+        const fetchReservations = async () => {
+            try {
+                const userResponse = await fetch(`http://localhost:8081/users/${user.userId}`);
+                const userData = await userResponse.json();
+                console.log("userData", userData);
+
+                const reservationsResponse = await fetch(`http://localhost:8081/users/${userData.userID}/reservations`);
+                const reservationsData = await reservationsResponse.json();
+                console.log("reservationsData", reservationsData);
+
+                const hotelResponses = await Promise.all(reservationsData.map(reservation =>
+                    fetch(`http://localhost:8081/api/hotels/${reservation.hotelID}`)
+                ));
+                const hotelDataList = await Promise.all(hotelResponses.map(response => response.json()));
+                console.log("hotelDataList", hotelDataList);
+
+                const reservationsWithDetails = await Promise.all(reservationsData.map(async (reservation, index) => {
+                    const hotelData = hotelDataList[index];
+                    const imagesResponse = await fetch(`http://localhost:8081/api/hotels/${reservation.hotelID}/images`);
+                    const imagesData = await imagesResponse.json();
+                    return { 
+                        ...reservation, 
+                        hotel: hotelData, 
+                        image: imagesData[0].imageURL, 
+                        startDate: new Date(reservation.startDate).toLocaleDateString(),
+                        endDate: new Date(reservation.endDate).toLocaleDateString()
+                    };
+                }));
+
+                setReservations(reservationsWithDetails);
+                console.log("reservations", reservationsWithDetails);
+            } catch (error) {
+                console.error('Error fetching reservations:', error);
+            }
+        };
+
+        fetchReservations();
+    }, [user]);
+
+    const handleDeleteReservation = async (reservationID) => {
+        const isConfirmed = window.confirm("Are you sure you want to delete this reservation?");
+        if (isConfirmed) {
+            try {
+                const response = await fetch(`http://localhost:8081/api/reservations/${reservationID}`, {
+                    method: 'DELETE',
+                });
+                if (response.ok) {
+                    setReservations(prevReservations => 
+                        prevReservations.filter(reservation => reservation.reservationID !== reservationID)
+                    );
+                    alert("Reservation deleted successfully.");
+                } else {
+                    alert("Failed to delete reservation.");
+                }
+            } catch (error) {
+                console.error("Error deleting reservation:", error);
+            }
+        }
+    };
 
     const ClickingHomepage = () => {
         navigate('/');
@@ -28,13 +85,6 @@ function UserProfile() {
         setActiveButton(buttonId);
         setActivePanel(panelName);
     };
-
-    const ConfirmToCancel = () => {
-        const isConfirmed = window.confirm("Are you sure?");
-        if (isConfirmed) {
-            ClickingHomepage();
-        } 
-    }
 
     return (
         <div className='background'>
@@ -92,21 +142,29 @@ function UserProfile() {
 
                 {activePanel === 'MyReservations-Panel' && <div className='MyReservations-Panel'>
                     <div className="ProfileButton-Panel-Container">
-                    <div className='Scroll-Area' style={{top: '-25px', position: 'relative', height: '630px'}}>
+                        <div className='Scroll-Area' style={{top: '-25px', position: 'relative', height: '630px'}}>
 
-                        {UserReservations.map(Hotel => 
-                            (<div key={Hotel}> <div className="Search-Container">
-                            <img className='Search-Image' src={Hotel.image} alt={Hotel.image}></img>
-                            <div>
-                                <div style={{fontWeight: 'bold', fontSize: '28px', marginBottom: '5px'}}>{Hotel.Hotel_Name}</div>
-                                <div style={{color: 'rgb(83, 83, 83)', fontSize: '24px', marginBottom: '5px'}}>{Hotel.Rez_Date}</div>
-                                <div style={{fontSize: '24px'}}>{Hotel.Hotel_Location}</div>
-                            </div>
-                    </div>
-                    <button className="cancel_button" style={{left: '880px', top: '-30px', fontSize: '22px', width: '250px', height: '50px', borderRadius: '15px'}} onClick={ConfirmToCancel}>Cancel the Reservation!</button> 
-                </div>))} 
+                            {reservations.map((reservation, index) => (
+                                <div key={index}> 
+                                    <div className="Search-Container">
+                                        <img className='Search-Image' src={reservation.image} alt={reservation.hotel.hotel_name}></img>
+                                        <div>
+                                            <div style={{fontWeight: 'bold', fontSize: '28px', marginBottom: '5px'}}>{reservation.hotel.hotel_name}</div>
+                                            <div style={{color: 'rgb(83, 83, 83)', fontSize: '24px', marginBottom: '5px'}}>{reservation.startDate} - {reservation.endDate}</div>
+                                            <div style={{fontSize: '24px'}}>{reservation.hotel.address}</div>
+                                        </div>
+                                    </div>
+                                    <button 
+                                        className="cancel_button" 
+                                        style={{left: '880px', top: '-30px', fontSize: '22px', width: '250px', height: '50px', borderRadius: '15px'}} 
+                                        onClick={() => handleDeleteReservation(reservation.reservationID)}
+                                    >
+                                        Cancel the Reservation!
+                                    </button> 
+                                </div>
+                            ))}
 
-    </div>
+                        </div>
                     </div>
                 </div>}
 
@@ -126,8 +184,6 @@ function UserProfile() {
                         </div>
                     </div>
                 </div>}
-
-                
 
             </div>
         </div>

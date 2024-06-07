@@ -6,11 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../context/AuthContext';
 
 function LogIn() {
     const [mail, setMail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const ClickingHomepage = () => {
         navigate('/');
@@ -28,8 +30,8 @@ function LogIn() {
         setPassword(e.target.value);
     };
 
-    const handleLogin = () => {
-        fetch('http://localhost:8081/users/auth', {
+    const handleLogin = () => {   
+        fetch('http://localhost:8081/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,8 +46,10 @@ function LogIn() {
         })
         .then(data => {
             console.log(data);
-            if (data.id) { 
+            if (data.jwt) {
+                login({ userId: data.userId, role: data.role, jwt: data.jwt });
                 toast.success('You have successfully logged in, The Journey begins!');
+                navigate('/'); 
             } else {
                 toast.error('Please try again!');
             }
@@ -55,7 +59,8 @@ function LogIn() {
             toast.error('Please try again!');
         });
     };
-    
+
+
 
     return (
         <div className='background-homepage'>

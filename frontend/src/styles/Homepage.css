@@ -8,6 +8,16 @@
   cursor: pointer;
 }
 
+.LoginName{
+  position: fixed; 
+  top: 50px;
+  right: 35px;
+  font-size: 24px;
+  background-color: transparent;
+  border: 0px;
+  color: #6d9b6d;
+}
+
 .Login:hover {color: #6d9b6d}
 
 

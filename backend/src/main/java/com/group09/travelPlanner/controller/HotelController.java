@@ -2,14 +2,17 @@ package com.group09.travelPlanner.controller;
 
 import com.group09.travelPlanner.responses.HotelResponse;
 import com.group09.travelPlanner.responses.SearchResponse;
+import com.group09.travelPlanner.entities.Amenity;
 import com.group09.travelPlanner.entities.Hotel;
 import com.group09.travelPlanner.entities.Hotelimages;
 import com.group09.travelPlanner.services.HotelImageService;
 import com.group09.travelPlanner.services.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/hotels")
@@ -20,6 +23,7 @@ public class HotelController {
     private HotelService hotelService;
     @Autowired
     private HotelImageService hotelImageService;
+    
 
     @GetMapping
     public List<SearchResponse> getAllHotels() {
@@ -27,8 +31,13 @@ public class HotelController {
     }
 
     @GetMapping("/{hotelID}")
-    public SearchResponse getHotelById(@PathVariable int hotelID) {
-        return hotelService.getHotelById(hotelID);
+    public ResponseEntity<Hotel> getHotelById(@PathVariable int hotelID) {
+        Hotel hotel = hotelService.getHotelById(hotelID);
+        if (hotel != null) {
+            return ResponseEntity.ok(hotel);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
@@ -37,8 +46,13 @@ public class HotelController {
     }
 
     @DeleteMapping("/{hotelID}")
-    public void deleteHotel(@PathVariable int hotelID) {
-        hotelService.deleteHotel(hotelID);
+    public ResponseEntity<String> deleteHotel(@PathVariable int hotelID) {
+        boolean isDeleted = hotelService.deleteHotel(hotelID);
+        if (isDeleted) {
+            return ResponseEntity.ok("Hotel deleted successfully");
+        } else {
+            return ResponseEntity.status(500).body("Failed to delete hotel");
+        }
     }
 
     @GetMapping("/{hotelID}/images")
@@ -65,4 +79,55 @@ public class HotelController {
     ) {
         return hotelService.getHotelByIdAndRoomType(hotelID, roomTypeID);
     }
+
+    @GetMapping("/{hotelID}/explores")
+    public List<Map<String, Object>> getExploresByHotelID(@PathVariable int hotelID) {
+        return hotelService.getExploresByHotelID(hotelID);
+    }
+    @GetMapping("/pending")
+    public List<HotelResponse> getPendingHotels() {
+        return hotelService.getPendingHotels();
+    }
+
+    @GetMapping("/{hotelID}/amenities")
+    public ResponseEntity<List<Amenity>> getAmenitiesByHotelID(@PathVariable int hotelID) {
+        List<Amenity> amenities = hotelService.getAmenitiesByHotelID(hotelID);
+        if (amenities != null && !amenities.isEmpty()) {
+            return ResponseEntity.ok(amenities);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{hotelID}/approve")
+    public ResponseEntity<String> approveHotel(@PathVariable int hotelID) {
+        boolean isApproved = hotelService.approveHotel(hotelID);
+        if (isApproved) {
+            return ResponseEntity.ok("Hotel approved successfully");
+        } else {
+            return ResponseEntity.status(500).body("Failed to approve hotel");
+        }
+    }
+
+    @PostMapping("/{hotelID}/reject")
+    public ResponseEntity<String> rejectHotel(@PathVariable int hotelID) {
+        boolean isRejected = hotelService.rejectHotel(hotelID);
+        if (isRejected) {
+            return ResponseEntity.ok("Hotel rejected successfully");
+        } else {
+            return ResponseEntity.status(500).body("Failed to reject hotel");
+        }
+    }
+
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<List<Hotel>> getHotelsByUserId(@PathVariable Long userID) {
+        List<Hotel> hotels = hotelService.getHotelsByUserId(userID);
+        if (hotels != null && !hotels.isEmpty()) {
+            return ResponseEntity.ok(hotels);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    
 }

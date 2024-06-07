@@ -1,6 +1,9 @@
 package com.group09.travelPlanner.entities;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 @Entity
@@ -11,6 +14,7 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "hotelID", nullable = false)
+    @JsonIgnore
     private Hotel hotel;
 
     @Column(name = "start_date")
@@ -18,6 +22,14 @@ public class Reservation {
 
     @Column(name = "end_date")
     private Date endDate;
+
+    @Column(name = "room_typeID")
+    private Integer room_typeID;
+
+    @Column(name = "userID")
+    private Long userID;
+
+
 
     // Diğer alanlar ve getter-setter metodları
 
@@ -75,6 +87,35 @@ public class Reservation {
      */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+
+    /**
+     * @return Integer return the room_typeID
+     */
+    public Integer getRoom_typeID() {
+        return room_typeID;
+    }
+
+    /**
+     * @param room_typeID the room_typeID to set
+     */
+    public void setRoom_typeID(Integer room_typeID) {
+        this.room_typeID = room_typeID;
+    }
+
+    /**
+     * @return Long return the userID
+     */
+    public Long getUserID() {
+        return userID;
+    }
+
+    /**
+     * @param userID the userID to set
+     */
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
 }

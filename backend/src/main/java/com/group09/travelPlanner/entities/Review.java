@@ -25,9 +25,13 @@ public class Review {
     private Integer location_rating;
     private Integer staff_rating;
 
+    @Column(name = "hotelID")
+    private Integer hotelID;
+
     
 
-    // Getters and Setters
+   
+
 
     /**
      * @return Integer return the reviewID
@@ -60,57 +64,71 @@ public class Review {
     /**
      * @return String return the review_text
      */
-    public String getreview_text() {
+    public String getReview_text() {
         return review_text;
     }
 
     /**
      * @param review_text the review_text to set
      */
-    public void setreview_text(String review_text) {
+    public void setReview_text(String review_text) {
         this.review_text = review_text;
     }
 
     /**
      * @return Integer return the cleanliness_rating
      */
-    public Integer getcleanliness_rating() {
+    public Integer getCleanliness_rating() {
         return cleanliness_rating;
     }
 
     /**
      * @param cleanliness_rating the cleanliness_rating to set
      */
-    public void setcleanliness_rating(Integer cleanliness_rating) {
+    public void setCleanliness_rating(Integer cleanliness_rating) {
         this.cleanliness_rating = cleanliness_rating;
     }
 
     /**
      * @return Integer return the location_rating
      */
-    public Integer getlocation_rating() {
+    public Integer getLocation_rating() {
         return location_rating;
     }
 
     /**
      * @param location_rating the location_rating to set
      */
-    public void setlocation_rating(Integer location_rating) {
+    public void setLocation_rating(Integer location_rating) {
         this.location_rating = location_rating;
     }
 
     /**
      * @return Integer return the staff_rating
      */
-    public Integer getstaff_rating() {
+    public Integer getStaff_rating() {
         return staff_rating;
     }
 
     /**
      * @param staff_rating the staff_rating to set
      */
-    public void setstaff_rating(Integer staff_rating) {
+    public void setStaff_rating(Integer staff_rating) {
         this.staff_rating = staff_rating;
+    }
+
+    /**
+     * @return Integer return the hotelID
+     */
+    public Integer getHotelID() {
+        return hotelID;
+    }
+
+    /**
+     * @param hotelID the hotelID to set
+     */
+    public void setHotelID(Integer hotelID) {
+        this.hotelID = hotelID;
     }
 
 }

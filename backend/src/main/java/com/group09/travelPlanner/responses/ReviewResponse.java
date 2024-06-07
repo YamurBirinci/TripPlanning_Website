@@ -6,6 +6,7 @@ public class ReviewResponse {
     private Integer cleanliness_rating;
     private Integer location_rating;
     private Integer staff_rating;
+    private Long userID;
 
     public ReviewResponse() {}
 
@@ -77,6 +78,21 @@ public class ReviewResponse {
      */
     public void setStaff_rating(Integer staff_rating) {
         this.staff_rating = staff_rating;
+    }
+
+
+    /**
+     * @return Long return the userID
+     */
+    public Long getUserID() {
+        return userID;
+    }
+
+    /**
+     * @param userID the userID to set
+     */
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
 }

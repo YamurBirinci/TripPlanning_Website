@@ -6,6 +6,11 @@ table {
     font-size: 24px;
 }
 
+.table-container {
+    max-height: 300px; 
+    overflow-y: auto;
+}
+
 th {
     background-color: #1c6632; 
     color: white;              

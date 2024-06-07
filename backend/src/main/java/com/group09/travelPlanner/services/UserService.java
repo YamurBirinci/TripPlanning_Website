@@ -26,11 +26,28 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
+    
+    public User getOneUserByMailAndPassword(String mail, String password) {
+        return userRepository.findByMailAndPassword(mail, password).orElse(null);
+    }
+
+    public List<User> getAllHotelOwners() {
+        return userRepository.findByRole("owner");
+    }
+
+    public boolean deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
     public User getOneUser(Long userID) {
         return userRepository.findById(userID).orElse(null);
     }
 
-    public User getOneUserByMailAndPassword(String mail, String password) {
-        return userRepository.findByMailAndPassword(mail, password).orElse(null);
+    public User getUserById(Long userID) {
+        return userRepository.findByUserID(userID);
     }
 }

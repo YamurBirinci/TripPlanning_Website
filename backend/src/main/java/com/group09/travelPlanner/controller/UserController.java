@@ -1,9 +1,13 @@
 package com.group09.travelPlanner.controller;
 
 import com.group09.travelPlanner.entities.User;
+import com.group09.travelPlanner.services.ReservationService;
 import com.group09.travelPlanner.services.UserService;
 import com.group09.travelPlanner.requests.UserRequest;
+import com.group09.travelPlanner.responses.ReservationDTO;
 import com.group09.travelPlanner.responses.UserResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +20,14 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private ReservationService reservationService;
 
+    @Autowired
+    public UserController(UserService userService, ReservationService reservationService) { // Ekle
+        this.userService = userService;
+        this.reservationService = reservationService; 
+    }
+    
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -32,8 +43,13 @@ public class UserController {
     }
 
     @GetMapping("/{userID}")
-    public User getOneUser(@PathVariable Long userID) {
-        return userService.getOneUser(userID);
+    public ResponseEntity<User> getUserById(@PathVariable Long userID) {
+        User user = userService.getUserById(userID);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/auth")
@@ -43,6 +59,16 @@ public class UserController {
             return ResponseEntity.ok(new UserResponse(user));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+    }
+
+    @GetMapping("/{userID}/reservations")
+    public ResponseEntity<List<ReservationDTO>> getUserReservations(@PathVariable Long userID) {
+        List<ReservationDTO> reservations = reservationService.getUserReservations(userID);
+        if (reservations != null && !reservations.isEmpty()) {
+            return ResponseEntity.ok(reservations);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

@@ -4,6 +4,9 @@ import '../styles/Search.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faUser, faMagnifyingGlass, faHouse, faLocationDot, faMagnifyingGlassLocation, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // AuthContext'ten user'ı alın
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Search() {
     const [hotels, setHotels] = useState([]);
@@ -14,7 +17,8 @@ function Search() {
     const [minPrice, setMinPrice] = useState('');
     const [maxPrice, setMaxPrice] = useState('');
     const [filteredHotels, setFilteredHotels] = useState([]);
-    
+    const { user } = useAuth();
+
     // URL parametrelerini doğru aldığımızdan emin olalım
     const destination = searchParams.get('destination') || '';
     const adults = parseInt(searchParams.get('adults'), 10) || 1;
@@ -45,13 +49,26 @@ function Search() {
     const navigate = useNavigate();
 
     const ClickingMyProfile = () => {
-        navigate('/MyProfile');
+        if (user) {
+            if (user.role === 'admin') {
+                navigate('/Admin');
+            } else if (user.role === 'owner') {
+                navigate('/HotelOwner');
+            } else if (user.role === 'customer') {
+                navigate('/MyProfile');
+            } else {
+                navigate('/Login');
+            }
+        } else {
+            navigate('/Login');
+        }
     };
 
     const ClickingExplore = (hotelID, roomTypeID) => {
-        navigate(`/SelectedHotel/${hotelID}/${roomTypeID}`);
+        
+        navigate(`/SelectedHotel/${hotelID}/${roomTypeID}?start_date=${start_date}&end_date=${end_date}`);
     };
-
+    
     const ClickingHomepage = () => {
         navigate('/');
     };
@@ -64,11 +81,21 @@ function Search() {
             startDate: newStartDate || start_date,
             endDate: newEndDate || end_date,
         }).toString();
+
+        if (!newStartDate || !newEndDate) {
+            toast.error('Please enter valid start and end dates!');
+            return;
+        }
+        if (newEndDate <= newStartDate) {
+            toast.error('End date must be after start date!');
+            return;
+        }
         navigate(`/Search?${queryParams}`);
     };
 
     const StarIcon = () => <FontAwesomeIcon icon={faStar} style={{ color: "orange", marginRight: '3px'}} />;
-    const starsArray = (numStars) => Array(numStars).fill(<StarIcon />);
+    const starsArray = (numStars) => Array(numStars).fill(0).map((_, index) => <StarIcon key={index} />);
+
 
     const FilterRate = (rate) => {
         const newSelection = [...selectedRates];
@@ -101,6 +128,7 @@ function Search() {
     
     return (
         <div className='background'>
+            <ToastContainer />
             <div className="Background_Rectangle" style={{ height: '900px', transform: 'scale(0.90)' }}>
                 <div className="Layer" style={{ width: '77px' }}></div>
                 <button className="Button" style={{ transform: 'translateX(+65px)' }} onClick={ClickingMyProfile}
