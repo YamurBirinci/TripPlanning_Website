@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faPerson, faLocationDot, faChild, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faRightFromBracket, faPerson, faLocationDot, faChild, faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../context/AuthContext'; 
@@ -103,7 +103,7 @@ function Homepage() {
                     </button>
                     <div>
                         <div className="LoginName"> Dear {userName},</div>
-                        <button className="Login"onClick={handleLogout}>Log Out</button>
+                        <button className="Login" style={{left: '1085px'}}onClick={handleLogout}> <FontAwesomeIcon icon={faRightFromBracket}></FontAwesomeIcon> Log Out</button>
                     </div>
                 </div>
                 )}

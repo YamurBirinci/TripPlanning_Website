@@ -23,7 +23,7 @@ public class UserController {
     private ReservationService reservationService;
 
     @Autowired
-    public UserController(UserService userService, ReservationService reservationService) { // Ekle
+    public UserController(UserService userService, ReservationService reservationService) { 
         this.userService = userService;
         this.reservationService = reservationService; 
     }

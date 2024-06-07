@@ -29,6 +29,7 @@ public class RoomResponse {
     public String getRoom_Size() {
         return room_Size;
     }
+    
 
     /**
      * @param room_Size the room_Size to set

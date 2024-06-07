@@ -110,12 +110,10 @@ function UserProfile() {
                         <FontAwesomeIcon icon={faHouse} style={{ fontSize: '18px', color: "black", marginRight: '15px'}} /> Main
                     </button>
 
-                <button className={`ProfileButton ${activeButton === 'MyReservations' ? 'Active-ProfileButton' : ''}`}
+                <button style={{left: '720px'}} className={`ProfileButton ${activeButton === 'MyReservations' ? 'Active-ProfileButton' : ''}`}
                     onClick={() => clickingButton('MyReservations', 'MyReservations-Panel')}>
                     <FontAwesomeIcon icon={faBed}></FontAwesomeIcon> My Reservations
                 </button>
-
-                <button className= 'ProfileButton'> <FontAwesomeIcon icon={faRightFromBracket}></FontAwesomeIcon> Log Out</button>
 
                 <div className="line" style={{ top: '220px'}}></div>
 

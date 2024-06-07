@@ -3,11 +3,10 @@ import '../styles/Primary.css';
 import '../styles/HotelOwner.css'; 
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHouse, faLocationDot, faRightFromBracket, faMagnifyingGlass, faUser, faSquarePlus, faHotel, faPenToSquare, faMoon} from '@fortawesome/free-solid-svg-icons';
+import { faStar, faHouse, faLocationDot, faRightFromBracket, faMagnifyingGlass, faUser, faSquarePlus, faHotel, faPenToSquare, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../context/AuthContext';
 
 function HotelOwner() {
- 
     const [activeButton, setActiveButton] = useState('MyHotels');
     const [activePanel, setActivePanel] = useState('MyHotels-Panel');
     const [reservations, setReservations] = useState([]);
@@ -15,7 +14,12 @@ function HotelOwner() {
     const [selectedHotels, setSelectedHotels] = useState([]);
     const [selectedMonths, setSelectedMonths] = useState([]);
     const [selectedStatuses, setSelectedStatuses] = useState([]);
-    const [unselectedAmenities, setUnselectedAmenities] = useState(['Please Select Amenities','Free Internet Access', 'Swimming Pool','Fitness Center','Business Center','Non Smoking Rooms','Restaurant','Accessible Rooms','Airport Shuttle','Free Breakfast','Pets Allowed','Tennis court & Equipment','Free Parking','Spa/Sauna','Playground for children','Golf Course']);
+    const [unselectedAmenities, setUnselectedAmenities] = useState([
+        'Free Internet Access', 'Swimming Pool', 'Fitness Center', 'Business Center',
+        'Non Smoking Rooms', 'Restaurant', 'Accessible Rooms', 'Airport Shuttle', 
+        'Free Breakfast', 'Pets Allowed', 'Tennis court & Equipment', 'Free Parking', 
+        'Spa/Sauna', 'Playground for children', 'Golf Course'
+    ]);
     const [selectedAmenities, setSelectedAmenities] = useState([]);
     const [newHotel, setNewHotel] = useState({
         hotelName: '',
@@ -25,9 +29,26 @@ function HotelOwner() {
         price: 0
     });
 
+    const amenitiesKeywords = {
+        "Free Internet Access": "wifi",
+        "Swimming Pool": "pool",
+        "Fitness Center": "gym",
+        "Business Center": "briefcase",
+        "Non Smoking Rooms": "smoking",
+        "Restaurant": "Restaurant",
+        "Accessible Rooms": "wheelchair",
+        "Airport Shuttle": "bus",
+        "Free Breakfast": "breakfast",
+        "Pets Allowed": "pets",
+        "Tennis court & Equipment": "tennis",
+        "Free Parking": "parking",
+        "Spa/Sauna": "spa",
+        "Playground for children": "game",
+        "Golf Course": "golf"
+    };
+
     const SelectingAmenities = (event) => {
         const value = event.target.value;
-        setSelectedAmenities(value);
         setUnselectedAmenities(unselectedAmenities.filter(feature => feature !== value));
 
         if (selectedAmenities.includes(value)) {
@@ -40,11 +61,11 @@ function HotelOwner() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const hotelData = {
-            hotel_name: "Sample Hotel",
-            address: "123 Sample Street",
-            star: 5,
+            hotel_name: newHotel.hotelName,
+            address: newHotel.location,
+            star: newHotel.star,
             status: "pending",
-            userId: 1  // Ensure this matches an existing user ID in your database
+            userId: user.userId
         };
     
         try {
@@ -56,21 +77,41 @@ function HotelOwner() {
                 body: JSON.stringify(hotelData),
             });
     
-            const result = await response.json();
             if (response.ok) {
+                const result = await response.json();
                 console.log("Hotel added successfully:", result);
+    
+                const hotelId = result.hotelID; 
+    
+                for (const amenity of selectedAmenities) {
+                    const amenityData = {
+                        hotelID: hotelId,
+                        amenity_name: amenitiesKeywords[amenity]
+                    };
+    
+                    await fetch("http://localhost:8081/api/amenities", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(amenityData),
+                    });
+                }
+    
+                console.log("Amenities added successfully.");
             } else {
-                console.error("Error submitting new hotel:", result.message);
+                const errorResult = await response.json();
+                console.error("Error submitting new hotel:", errorResult.message);
             }
         } catch (error) {
             console.error("Error submitting new hotel:", error);
         }
     };
     
-    
-    
+
     const removeAmenities = (feature) => {
         setSelectedAmenities(selectedAmenities.filter(features => features !== feature));
+        setUnselectedAmenities([...unselectedAmenities, feature]);
     };
 
     const navigate = useNavigate();
@@ -86,8 +127,7 @@ function HotelOwner() {
             setReservations(data);
             console.log(data);
         
-        } 
-        catch (error) {
+        } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
@@ -110,11 +150,12 @@ function HotelOwner() {
             <div className="Background_Rectangle" style={{ height: '800px', transform: 'scale(0.90)'}}>
                 <button className="name_logo" style={{ height: '100px', border: '0px', backgroundColor: 'transparent', left: '70px'}} onClick={ClickingHomepage}></button>
                 <div className="Layer" style={{top: '25px',width: '77px'}}></div>
-                    <button className="Button" style={{ transform: 'translateX(+65px)', top: '45px', color: 'black'}} onClick={ClickingHomepage}
-                        onMouseEnter={event => event.currentTarget.style.transform = 'translateX(0)'}
-                        onMouseLeave={event => event.currentTarget.style.transform = 'translateX(+65px)'}>
-                        <FontAwesomeIcon icon={faHouse} style={{ fontSize: '18px', color: "black", marginRight: '15px'}} /> Main
-                    </button>
+                <button className="Button" style={{ transform: 'translateX(+65px)', top: '45px', color: 'black'}} onClick={ClickingHomepage}
+                    onMouseEnter={event => event.currentTarget.style.transform = 'translateX(0)'}
+                    onMouseLeave={event => event.currentTarget.style.transform = 'translateX(+65px)'}
+                >
+                    <FontAwesomeIcon icon={faHouse} style={{ fontSize: '18px', color: "black", marginRight: '15px'}} /> Main
+                </button>
                 <button style={{left: '625px'}} className={`ProfileButton ${activeButton === 'MyHotels' ? 'Active-ProfileButton' : ''}`}
                     onClick={() => clickingButton('MyHotels', 'MyHotels-Panel')}>
                     <FontAwesomeIcon icon={faHotel}></FontAwesomeIcon> My Hotels
@@ -130,7 +171,7 @@ function HotelOwner() {
                     <div className="ProfileButton-Panel-Container">
                         <div className="container">
                             <div className="text_group field" style={{ width: '200px', left: '-330px', top: '-105px' }}>
-                                <input type="number" className="text_box" style={{ width: '200px', height: '52px'}} placeholder="Star" name="Star" id='Star' value={newHotel.star} onChange={(e) => setNewHotel({ ...newHotel, star: parseInt(e.target.value) })} required/>
+                                <input type="number" className="text_box" style={{ width: '200px', height: '52px'}} placeholder="Star" name="Star" id='Star' value={newHotel.star} onChange={(e) => setNewHotel({ ...newHotel, star: parseInt(e.target.value) })} required />
                                 <label htmlFor="Star" className="group_label"><FontAwesomeIcon icon={faStar}></FontAwesomeIcon> Star</label>
                             </div>
                             <div className="text_group field" style={{ width: '200px', left: '-265px', top: '-105px' }}>
@@ -178,7 +219,7 @@ function HotelOwner() {
                         <div className='Scroll-Area' style={{top: '-25px', position: 'relative', height: '630px'}}>
                             {reservations.map((reservation, index) => (
                                 <div key={index}> 
-                                    <div className="Search-Container">
+                                    <div className="Search-Container" style={{marginBottom: '10px'}}>
                                         <div>
                                             <div style={{fontWeight: 'bold', fontSize: '28px', marginBottom: '5px'}}>{reservation.hotel_name}</div>
                                             <div style={{color: 'rgb(83, 83, 83)', fontSize: '24px', marginBottom: '5px'}}>{reservation.star}-Star Hotel</div>
@@ -194,4 +235,5 @@ function HotelOwner() {
         </div>
     );
 }
+
 export default HotelOwner;

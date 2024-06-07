@@ -29,7 +29,7 @@ public class ReservationService {
     }
 
     public Reservation createReservation(Reservation reservation, Integer hotelId) {
-        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new RuntimeException("Hotel not found"));
+        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new RuntimeException("not found"));
         reservation.setHotel(hotel);
         return reservationRepository.save(reservation);
     }
@@ -46,7 +46,7 @@ public class ReservationService {
         reservationDTO.setEndDate(reservation.getEndDate());
         reservationDTO.setRoom_typeID(reservation.getRoom_typeID());
         reservationDTO.setUserID(reservation.getUserID());
-        reservationDTO.setHotelID(reservation.getHotel().getHotelID().longValue()); // Ensure the type is Long
+        reservationDTO.setHotelID(reservation.getHotel().getHotelID().longValue()); 
         return reservationDTO;
     }
 

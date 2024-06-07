@@ -3,7 +3,7 @@ package com.group09.travelPlanner.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user") // Ensure this matches your table name
+@Table(name = "user")
 public class User {
 
     @Id

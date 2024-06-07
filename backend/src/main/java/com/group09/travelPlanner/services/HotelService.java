@@ -68,7 +68,8 @@ public class HotelService {
         try {
             startDate = dateFormat.parse(start_date);
             endDate = dateFormat.parse(end_date);
-        } catch (ParseException e) {
+        } 
+        catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -234,12 +235,13 @@ public class HotelService {
         hotel.setStar(addingHotelData.getStar());
         hotel.setStatus(addingHotelData.getStatus());
 
-        User user = userRepository.findById(addingHotelData.getUserId())
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + addingHotelData.getUserId()));
+        User user = userRepository.findById(addingHotelData.getUserId()).orElseThrow(() -> new IllegalArgumentException("Invalid user ID: " + addingHotelData.getUserId()));
         hotel.setUser(user);
 
         hotelRepository.save(hotel);
     }
+
+    
     
 
     
