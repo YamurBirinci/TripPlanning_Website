@@ -112,28 +112,25 @@ INSERT INTO Explore (explore_name, address, star) VALUES
 ('Explore Beach', '789 Ocean Ave', 3);
 
 INSERT INTO Exploreimages (imageURL, exploreID) VALUES 
-('../images/Angeles1.PNG', 1),
-('../images/Angeles2.PNG', 1),
-('../images/Angeles3.PNG', 2),
-('../images/Angeles4.PNG', 3),
-('../images/Angeles5.PNG', 2),
-('../images/Angeles6.PNG', 1),
-('../images/Angeles1.PNG', 1),
-('../images/Angeles2.PNG', 2),
-('../images/Angeles3.PNG', 2),
-('../images/Angeles4.PNG', 3);
+('../images/Seramik1.PNG', 1),
+('../images/Seramik2.PNG', 1),
+('../images/Seramik3.PNG', 1),
+('../images/Real_Alcazar1.PNG', 2),
+('../images/Real_Alcazar2.PNG', 2),
+('../images/Real_Alcazar3.PNG', 2),
+('../images/Ceramica_Triana1.PNG', 3),
+('../images/Ceramica_Triana2.PNG', 3),
+('../images/Ceramica_Triana3.PNG', 3);
 
 INSERT INTO user (first_name, last_name, mail, password, role) VALUES 
-('John', 'Doe', 'john.doe@example.com', 'password123', 'customer'),
-('Jane', 'Smith', 'jane.smith@example.com', 'password456', 'customer'),
-('Alice', 'Johnson', 'alice.johnson@example.com', 'password789', 'customer'),
-('Bob', 'Brown', 'bob.brown@example.com', 'password111', 'customer'),
-('Emily', 'Davis', 'emily.davis@example.com', 'password222', 'customer'),
-('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'password123', 'owner'),
-('Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'password456', 'owner'),
-('Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'password789', 'owner'),
-('Pam', 'Beesly', 'pam.beesly@dundermifflin.com', 'password111', 'admin'),
-('Stanley', 'Hudson', 'stanley.hudson@dundermifflin.com', 'password222', 'admin');
+('Yağmur Fatma', 'Birinci', 'yamur@example.com', '123', 'customer'),
+('Helin', 'Arslan', 'Helin@example.com', '123', 'customer'),
+('Oyku', 'Sucuoglu', 'oyku@example.com', '123', 'owner'),
+('Enes', 'Oguz', 'enes@dundermifflin.com', '123', 'admin'),
+('example1', 'Birinci', 'example1@example.com', '123', 'customer'),
+('example2', 'Arslan', 'example2@example.com', '123', 'customer'),
+('example3', 'Sucuoglu', 'example3@example.com', '123', 'owner'),
+('example4', 'Oguz', 'example4@dundermifflin.com', '123', 'admin');
 
 INSERT INTO Hotel (hotel_name, address, star, status, userID) VALUES 
 ('Hotel Angeles Center', 'Calle Juan De Mata Carriazo 7, Seville, Spain', 4, 'Active',6),
@@ -161,19 +158,28 @@ INSERT INTO Room (hotelID, room_size, max_adults, max_children, daily_price) VAL
 
 INSERT INTO Amenity (hotelID, amenity_name) VALUES 
 (1, 'wifi'),
+(2, 'wifi'),
+(5, 'wifi'),
 (6, 'pool'),
+(1, 'pool'),
+(2, 'pool'),
 (6, 'gym'),
 (6, 'briefcase'),
+(4, 'briefcase'),
 (3, 'smoking'),
 (2, 'Restaurant'),
 (4, 'wheelchair'),
 (4, 'bus'),
+(2, 'bus'),
 (5, 'breakfast'),
+(3, 'breakfast'),
 (6, 'pets'),
 (1, 'tennis'),
 (5, 'parking'),
 (6, 'spa'),
 (5, 'golf'),
+(1, 'spa'),
+(2, 'golf'),
 (2, 'game');
 
 INSERT INTO Review (review_text, cleanliness_rating, location_rating, staff_rating, hotelID,userID) VALUES 
@@ -182,16 +188,32 @@ INSERT INTO Review (review_text, cleanliness_rating, location_rating, staff_rati
 ('Very comfortable and pleasant stay.', 5, 5, 5, 3,2),
 ('Absolutely amazing, worth every penny.', 5, 5, 5, 4,1),
 ('Best hotel experience ever!', 5, 5, 5, 5,1),
-('Yorum1!', 5, 5, 5, 6,2),
-('Yorums!', 5, 5, 5, 6,2);
+('example1!', 5, 5, 5, 6,2),
+('example1!', 5, 5, 5, 6,2),
+('Your punctuality and reliability set a strong example for our team. Your consistent presence is appreciated and noticed!', 5, 5, 5, 1,1),
+('You have an excellent attendance record. Your dedication and commitment are truly exemplary', 4, 4, 4, 2,2),
+('Your adherence to your work schedule contributes greatly to our teams productivity and efficiency', 5, 5, 5, 3,2),
+('Absolutely amazing, worth every penny.', 5, 5, 5, 1,1),
+('Best hotel experience ever!', 5, 5, 5, 2,1),
+('example1!', 5, 5, 5, 3,2),
+('example1!', 5, 5, 5, 4,2);
 
 INSERT INTO Hotelimages (imageURL, hotelID) VALUES 
 ('../images/Angeles1.PNG', 1),
 ('../images/Angeles2.PNG', 1),
 ('../images/Angeles3.PNG', 1),
 ('../images/Angeles4.PNG', 1),
-('../images/Angeles3.PNG', 2),
-('../images/Angeles4.PNG', 3),
+('../images/Angeles5.PNG', 1),
+('../images/Angeles6.PNG', 1),
+('../images/Dedeman1.PNG', 2),
+('../images/Dedeman2.PNG', 2),
+('../images/Dedeman3.PNG', 2),
+('../images/Dedeman4.PNG', 2),
+('../images/Dedeman5.PNG', 2),
+('../images/Dedeman.PNG', 2),
+('../images/Sera1.PNG', 3),
+('../images/Sera2.PNG', 3),
+('../images/Sera3.PNG', 3),
 ('../images/Angeles5.PNG', 4),
 ('../images/Angeles6.PNG', 5),
 ('../images/Angeles1.PNG', 6),
@@ -210,7 +232,10 @@ INSERT INTO ExploreReview (review_text, rate, exploreID)
 VALUES ('Amazing place to visit!', 5, 1),
        ('Beautiful architecture.', 4, 1),
        ('A must-see landmark.', 5, 2),
-       ('Great view and atmosphere.', 4, 3);
+       ('Like it', 5, 1),
+       ('Wonderful', 4, 1),
+       ('Not bad.', 5, 2),
+       ('love ittt.', 4, 3);
        
 INSERT INTO Reservation (start_date, end_date, room_typeID, hotelID, userID) VALUES 
 ('2024-03-14', '2024-03-15', 1, 1, 1),
@@ -236,20 +261,6 @@ select * from review;
 select * from user where role = "owner";
 
 select * from hotel where status = "pending" ;
-
+select * from Amenity;
 select * from reservation;
 
-
-SELECT DISTINCT h.*, rt.room_typeID, rt.room_size, rt.daily_price, MIN(hi.imageURL) as imageURL
-FROM Hotel h
-JOIN Room rt ON h.hotelID = rt.hotelID
-LEFT JOIN Hotelimages hi ON h.hotelID = hi.hotelID
-LEFT JOIN Reservation r ON h.hotelID = r.hotelID AND rt.room_typeID = r.room_typeID 
-  AND ((( '2024-06-07' < r.start_date AND '2024-06-7' < r.end_date)
-    OR ( '2024-06-07' > r.end_date AND '2024-06-7' > r.end_date)))
-    AND not ( '2024-06-07' = r.start_date AND '2024-06-7' = r.end_date)
-    where rt.max_adults >= 1
-  AND rt.max_children >= 1
-  AND (r.reservationID IS NULL)
-  AND h.status = 'Active'
-GROUP BY h.hotelID, rt.room_typeID, rt.room_size, rt.daily_price;
