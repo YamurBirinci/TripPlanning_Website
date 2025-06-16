@@ -32,4 +32,3 @@
 
 Apart from all these, there are also admin, customer, and hotel owner interfaces. There are various screens such as payment, hotel search, and registration to the site.
 
-* text=auto
